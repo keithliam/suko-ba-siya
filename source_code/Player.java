@@ -18,11 +18,21 @@ public class Player {
 	}
 
 	private void setX(int value){
+		if(this.x > value){
+			this.game.addMove(LEFT);
+		} else {
+			this.game.addMove(RIGHT);
+		}
 		this.x = value;
 		this.game.incMoves();
 	}
 
 	private void setY(int value){
+		if(this.y > value){
+			this.game.addMove(UP);
+		} else {
+			this.game.addMove(DOWN);
+		}
 		this.y = value;
 		this.game.incMoves();
 	}
@@ -328,6 +338,7 @@ public class Player {
 				}
 			}
 			this.game.renderTiles(this.x, this.y, RIGHT);
+			this.game.checkWin();
 		}
 		this.game.printMap();
 	}

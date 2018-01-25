@@ -16,10 +16,12 @@ import java.awt.Color;
 import java.awt.Image;
 import javax.imageio.ImageIO;
 
+import java.util.ArrayList;
 
-public class Game extends JPanel implements Runnable{
+public class Game extends JPanel{
 	private String[][] map = new String[10][10];
 	private JLabel[] renderMap = new JLabel[100];
+	private ArrayList<Integer> prevMoves = new ArrayList<Integer>();
 	private JLabel label;
 	private JPanel status;
 	private Player player;
@@ -77,6 +79,11 @@ public class Game extends JPanel implements Runnable{
 	public void incMoves(){
 		this.moves++;
 		this.label.setText("Moves: " + this.moves);
+	}
+
+	public void addMove(int direction){
+		this.prevMoves.add(direction);
+		System.out.println(this.prevMoves);
 	}
 
 	public void incStorage(){
@@ -284,6 +291,13 @@ public class Game extends JPanel implements Runnable{
 		}
 	}
 
+	public void checkWin(){
+		if(this.vacantStorages == 0 && moves > 0){
+			this.layout.show(this.container, "status");
+			this.status.requestFocus();
+		}
+	}
+
 	public void renderWalls(){
 		for(int i = 0; i < 10; i++){
 			for(int j = 0; j < 10; j++){
@@ -319,18 +333,6 @@ public class Game extends JPanel implements Runnable{
 		this.label.setText("Moves: " + this.moves);
 		this.readMap();
 		this.renderAll();
+		this.prevMoves.clear();
 	}
-
-	public void run(){
-		while(true){
-			try {
-				Thread.sleep(50);
-			} catch(Exception e){}
-			if(this.vacantStorages == 0 && moves > 0){
-				this.layout.show(this.container, "status");
-				this.status.requestFocus();
-			}
-		}
-	}
-
 }

@@ -330,6 +330,7 @@ public class Game extends JPanel{
 	public void resetGame(){
 		this.moves = 0;
 		this.vacantStorages = 0;
+		this.boxes = 0;
 		this.label.setText("Moves: " + this.moves);
 		this.readMap();
 		this.renderAll();

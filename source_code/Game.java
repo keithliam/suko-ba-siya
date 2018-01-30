@@ -16,36 +16,50 @@ import java.awt.Color;
 import java.awt.Image;
 import javax.imageio.ImageIO;
 
-import java.util.ArrayList;
+import java.util.Queue;
+import java.util.Map;
 
 public class Game extends JPanel{
 	private String[][] map = new String[10][10];
 	private JLabel[] renderMap = new JLabel[100];
-	private ArrayList<Integer> prevMoves = new ArrayList<Integer>();
+	private Queue<Integer> prevMoves = new Queue<Integer>();
 	private JLabel label;
 	private JPanel status;
 	private Player player;
 	private CardLayout layout;
 	private Container container;
 	private int vacantStorages, boxes, moves, wallType, rotate;
+	private boolean toDisplay;
 	public final static int UP = 1;
 	public final static int LEFT = 2;
 	public final static int DOWN = 3;
 	public final static int RIGHT = 4;
 	public final static int BLOCK = 60;
 
-	public Game(Container container, CardLayout layout, JPanel status, JLabel label){
+	public Game(String[][] map, int playerX, int playerY, int vacantStorages, int moves){
 		this.setLayout(null);
 		this.wallType = 1;
 		this.rotate = 0;
+		this.toDisplay = false;
+		if(map == null){
+			this.readMap();
+			this.vacantStorages = 0;
+			this.boxes = 0;
+			this.moves = 0;
+		} else {
+			this.map = map;
+			this.player = new Player(playerX, playerY, this);
+			this.vacantStorages = vacantStorages;
+			this.moves = moves;
+		}
+	}
+
+	public void display(Container container, CardLayout layout, JPanel status, JLabel label){
+		this.toDisplay = true;
 		this.label = label;
 		this.status = status;
 		this.layout = layout;
 		this.container = container;
-		this.vacantStorages = 0;
-		this.boxes = 0;
-		this.moves = 0;
-		this.readMap();
 		this.renderInitial();
 		Game game = this;
 		this.addKeyListener(new KeyListener(){
@@ -65,6 +79,10 @@ public class Game extends JPanel{
 		});
 	}
 
+	public boolean isDisplay(){
+		return this.toDisplay;
+	}
+
 	public void printMap(){
 		System.out.println();
 		for(int row = 0; row < 10; row++){
@@ -78,12 +96,16 @@ public class Game extends JPanel{
 
 	public void incMoves(){
 		this.moves++;
-		this.label.setText("Moves: " + this.moves);
+		if(this.toDisplay){
+			this.label.setText("Moves: " + this.moves);
+		}
 	}
 
 	public void addMove(int direction){
 		this.prevMoves.add(direction);
-		System.out.println(this.prevMoves);
+		if(this.toDisplay){
+			System.out.println(this.prevMoves);
+		}
 	}
 
 	public void incStorage(){
@@ -334,6 +356,8 @@ public class Game extends JPanel{
 		this.label.setText("Moves: " + this.moves);
 		this.readMap();
 		this.renderAll();
-		this.prevMoves.clear();
+		for(int i = 0; i < this.prevMoves.size(); i++){
+			this.prevMoves.remove();
+		}
 	}
 }

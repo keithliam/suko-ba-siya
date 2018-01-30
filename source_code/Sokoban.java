@@ -58,7 +58,8 @@ public class Sokoban{
 		status.add(movesLabel);
 		status.add(pauseImage);
 
-		final Game game = new Game(container, layout, status, movesLabel);
+		final Game game = new Game(null, null, null, null, null);
+		game.display(container, layout, status, movesLabel);
 
 		container.add(menu, "menu");
 		container.add(game, "game");

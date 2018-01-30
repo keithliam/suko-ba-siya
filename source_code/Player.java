@@ -6,10 +6,6 @@ import java.awt.*;
 public class Player {
 	private Game game;
 	private int x, y;
-	public final static int UP = 1;
-	public final static int LEFT = 2;
-	public final static int DOWN = 3;
-	public final static int RIGHT = 4;
 
 	public Player(int x, int y, Game game){
 		this.x = x;
@@ -65,12 +61,18 @@ public class Player {
 						this.setY(this.y - 1);
 					}
 				} else if(this.game.getItem(this.x, this.y - 1).equals("w")){
-					System.out.println("You're being blocked by a wall.");
+					if(this.game.isDisplay()){
+						System.out.println("You're being blocked by a wall.");
+					}
 				} else if(this.game.getItem(this.x, this.y - 1).equals("b") || this.game.getItem(this.x, this.y - 1).equals("B")){
 					if(this.game.getItem(this.x, this.y - 2).equals("b") || this.game.getItem(this.x, this.y - 2).equals("B")){
-						System.out.println("Blue book is being blocked by another blue book.");
+						if(this.game.isDisplay()){
+							System.out.println("Blue book is being blocked by another blue book.");
+						}
 					} else if(this.game.getItem(this.x, this.y - 2).equals("w")){
-						System.out.println("Blue book is being blocked by a wall.");
+						if(this.game.isDisplay()){
+							System.out.println("Blue book is being blocked by a wall.");
+						}
 					} else if(this.game.getItem(this.x, this.y - 2).equals("s")){
 						if(this.game.getItem(this.x, this.y - 1).equals("B")){
 							this.game.moveItem(this.x, this.y - 1, UP, "B", "s");
@@ -118,7 +120,9 @@ public class Player {
 					}
 				}
 			}
-			this.game.renderTiles(this.x, this.y, UP);
+			if(this.game.isDisplay()){
+				this.game.renderTiles(this.x, this.y, UP);
+			}
 		} else if(direction == LEFT){
 			if(this.x > 0){
 				if(this.game.getItem(this.x - 1, this.y).equals("e")){
@@ -138,12 +142,18 @@ public class Player {
 						this.setX(this.x - 1);
 					}
 				} else if(this.game.getItem(this.x - 1, this.y).equals("w")){
-					System.out.println("\nYou're being blocked by a wall.");
+					if(this.game.isDisplay()){
+						System.out.println("\nYou're being blocked by a wall.");
+					}
 				} else if(this.game.getItem(this.x - 1, this.y).equals("b") || this.game.getItem(this.x - 1, this.y).equals("B")){
 					if(this.game.getItem(this.x - 2, this.y).equals("b") || this.game.getItem(this.x - 2, this.y).equals("B")){
-						System.out.println("\nBlue book is being blocked by another blue book.");
+						if(this.game.isDisplay()){
+							System.out.println("\nBlue book is being blocked by another blue book.");
+						}
 					} else if(this.game.getItem(this.x - 2, this.y).equals("w")){
-						System.out.println("\nBlue book is being blocked by a wall.");
+						if(this.game.isDisplay()){
+							System.out.println("\nBlue book is being blocked by a wall.");
+						}
 					} else if(this.game.getItem(this.x - 2, this.y).equals("s")){
 						if(this.game.getItem(this.x - 1, this.y).equals("B")){
 							this.game.moveItem(this.x - 1, this.y, LEFT, "B", "s");
@@ -191,7 +201,9 @@ public class Player {
 					}
 				}
 			}
-			this.game.renderTiles(this.x, this.y, LEFT);
+			if(this.game.isDisplay()){
+				this.game.renderTiles(this.x, this.y, LEFT);
+			}
 		} else if(direction == DOWN){
 			if(this.y < 10){
 				if(this.game.getItem(this.x, this.y + 1).equals("e")){
@@ -211,12 +223,18 @@ public class Player {
 						this.setY(this.y + 1);
 					}
 				} else if(this.game.getItem(this.x, this.y + 1).equals("w")){
-					System.out.println("You're being blocked by a wall.");
+					if(this.game.isDisplay()){
+						System.out.println("You're being blocked by a wall.");
+					}
 				} else if(this.game.getItem(this.x, this.y + 1).equals("b") || this.game.getItem(this.x, this.y + 1).equals("B")){
 					if(this.game.getItem(this.x, this.y + 2).equals("b") || this.game.getItem(this.x, this.y + 2).equals("B")){
-						System.out.println("Blue book is being blocked by another blue book.");
+						if(this.game.isDisplay()){
+							System.out.println("Blue book is being blocked by another blue book.");
+						}
 					} else if(this.game.getItem(this.x, this.y + 2).equals("w")){
-						System.out.println("Blue book is being blocked by a wall.");
+						if(this.game.isDisplay()){
+							System.out.println("Blue book is being blocked by a wall.");
+						}
 					} else if(this.game.getItem(this.x, this.y + 2).equals("s")){
 						if(this.game.getItem(this.x, this.y + 1).equals("B")){
 							this.game.moveItem(this.x, this.y + 1, DOWN, "B", "s");
@@ -264,7 +282,9 @@ public class Player {
 					}
 				}
 			}
-			this.game.renderTiles(this.x, this.y, DOWN);
+			if(this.game.isDisplay()){
+				this.game.renderTiles(this.x, this.y, DOWN);
+			}
 		} else if(direction == RIGHT){
 			if(this.x < 10){
 				if(this.game.getItem(this.x + 1, this.y).equals("e")){
@@ -284,12 +304,18 @@ public class Player {
 						this.setX(this.x + 1);
 					}
 				} else if(this.game.getItem(this.x + 1, this.y).equals("w")){
-					System.out.println("You're being blocked by a wall.");
+					if(this.game.isDisplay()){
+						System.out.println("You're being blocked by a wall.");
+					}
 				} else if(this.game.getItem(this.x + 1, this.y).equals("b") || this.game.getItem(this.x + 1, this.y).equals("B")){
 					if(this.game.getItem(this.x + 2, this.y).equals("b") || this.game.getItem(this.x + 2, this.y).equals("B")){
-						System.out.println("Blue book is being blocked by another blue book.");
+						if(this.game.isDisplay()){
+							System.out.println("Blue book is being blocked by another blue book.");
+						}
 					} else if(this.game.getItem(this.x + 2, this.y).equals("w")){
-						System.out.println("Blue book is being blocked by a wall.");
+						if(this.game.isDisplay()){
+							System.out.println("Blue book is being blocked by a wall.");
+						}
 					} else if(this.game.getItem(this.x + 2, this.y).equals("s")){
 						if(this.game.getItem(this.x + 1, this.y).equals("B")){
 							this.game.moveItem(this.x + 1, this.y, RIGHT, "B", "s");
@@ -337,9 +363,13 @@ public class Player {
 					}
 				}
 			}
-			this.game.renderTiles(this.x, this.y, RIGHT);
-			this.game.checkWin();
+			if(this.game.isDisplay()){
+				this.game.renderTiles(this.x, this.y, RIGHT);
+				this.game.checkWin();
+			}
 		}
-		this.game.printMap();
+		if(this.game.isDisplay()){
+			this.game.printMap();
+		}
 	}
 }

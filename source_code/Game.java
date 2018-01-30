@@ -16,19 +16,20 @@ import java.awt.Color;
 import java.awt.Image;
 import javax.imageio.ImageIO;
 
+import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Map;
 
 public class Game extends JPanel{
 	private String[][] map = new String[10][10];
 	private JLabel[] renderMap = new JLabel[100];
-	private Queue<Integer> prevMoves = new Queue<Integer>();
+	private Queue<Integer> prevMoves = new LinkedList<Integer>();
 	private JLabel label;
 	private JPanel status;
 	private Player player;
 	private CardLayout layout;
 	private Container container;
-	private int vacantStorages, boxes, moves, wallType, rotate;
+	private int vacantStorages, boxes, wallType, rotate;
 	private boolean toDisplay;
 	public final static int UP = 1;
 	public final static int LEFT = 2;
@@ -36,7 +37,7 @@ public class Game extends JPanel{
 	public final static int RIGHT = 4;
 	public final static int BLOCK = 60;
 
-	public Game(String[][] map, int playerX, int playerY, int vacantStorages, int moves){
+	public Game(String[][] map, int playerX, int playerY, int vacantStorages, Queue<Integer> prevMoves){
 		this.setLayout(null);
 		this.wallType = 1;
 		this.rotate = 0;
@@ -45,12 +46,11 @@ public class Game extends JPanel{
 			this.readMap();
 			this.vacantStorages = 0;
 			this.boxes = 0;
-			this.moves = 0;
 		} else {
 			this.map = map;
 			this.player = new Player(playerX, playerY, this);
 			this.vacantStorages = vacantStorages;
-			this.moves = moves;
+			this.prevMoves = prevMoves;
 		}
 	}
 
@@ -92,13 +92,6 @@ public class Game extends JPanel{
 			System.out.println();
 		}
 		System.out.println("\nPress spacebar for game stats\nPress R to restart game");
-	}
-
-	public void incMoves(){
-		this.moves++;
-		if(this.toDisplay){
-			this.label.setText("Moves: " + this.moves);
-		}
 	}
 
 	public void addMove(int direction){
@@ -265,6 +258,7 @@ public class Game extends JPanel{
 	}
 
 	public void renderTiles(int x, int y, int direction){
+		this.label.setText("Moves: " + this.prevMoves.size());
 		if(y < 10 && direction == UP){
 			y++;
 		} else if(x < 10 && direction == LEFT){
@@ -314,7 +308,7 @@ public class Game extends JPanel{
 	}
 
 	public void checkWin(){
-		if(this.vacantStorages == 0 && moves > 0){
+		if(this.vacantStorages == 0 && this.prevMoves.size() > 0){
 			this.layout.show(this.container, "status");
 			this.status.requestFocus();
 		}
@@ -350,10 +344,9 @@ public class Game extends JPanel{
 	}
 
 	public void resetGame(){
-		this.moves = 0;
 		this.vacantStorages = 0;
 		this.boxes = 0;
-		this.label.setText("Moves: " + this.moves);
+		this.label.setText("Moves: 0");
 		this.readMap();
 		this.renderAll();
 		for(int i = 0; i < this.prevMoves.size(); i++){

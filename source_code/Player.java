@@ -6,6 +6,10 @@ import java.awt.*;
 public class Player {
 	private Game game;
 	private int x, y;
+	public final static int UP = 1;
+	public final static int LEFT = 2;
+	public final static int DOWN = 3;
+	public final static int RIGHT = 4;
 
 	public Player(int x, int y, Game game){
 		this.x = x;
@@ -20,7 +24,6 @@ public class Player {
 			this.game.addMove(RIGHT);
 		}
 		this.x = value;
-		this.game.incMoves();
 	}
 
 	private void setY(int value){
@@ -30,7 +33,6 @@ public class Player {
 			this.game.addMove(DOWN);
 		}
 		this.y = value;
-		this.game.incMoves();
 	}
 
 	public int getX(){

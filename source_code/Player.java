@@ -5,34 +5,18 @@ import java.awt.*;
 
 public class Player {
 	private Game game;
+	private boolean toDisplay;
 	private int x, y;
 	public final static int UP = 1;
 	public final static int LEFT = 2;
 	public final static int DOWN = 3;
 	public final static int RIGHT = 4;
 
-	public Player(int x, int y, Game game){
+	public Player(int x, int y, Game game, boolean toDisplay){
 		this.x = x;
 		this.y = y;
 		this.game = game;
-	}
-
-	private void setX(int value){
-		if(this.x > value){
-			this.game.addMove(LEFT);
-		} else {
-			this.game.addMove(RIGHT);
-		}
-		this.x = value;
-	}
-
-	private void setY(int value){
-		if(this.y > value){
-			this.game.addMove(UP);
-		} else {
-			this.game.addMove(DOWN);
-		}
-		this.y = value;
+		this.toDisplay = toDisplay;
 	}
 
 	public int getX(){
@@ -49,30 +33,34 @@ public class Player {
 				if(this.game.getItem(this.x, this.y - 1).equals("e")){
 					if(this.game.getItem(this.x, this.y).equals("k")){
 						this.game.moveItem(this.x, this.y, UP, "k", "e");
-						this.setY(this.y - 1);
+						this.y--;
+						this.game.addMove(UP);
 					} else if(this.game.getItem(this.x, this.y).equals("K")){
 						this.game.moveItem(this.x, this.y, UP, "k", "s");
-						this.setY(this.y - 1);
+						this.y--;
+						this.game.addMove(UP);
 					}
 				} else if(this.game.getItem(this.x, this.y - 1).equals("s")){
 					if(this.game.getItem(this.x, this.y).equals("k")){
 						this.game.moveItem(this.x, this.y, UP, "K", "e");
-						this.setY(this.y - 1);
+						this.y--;
+						this.game.addMove(UP);
 					} else if(this.game.getItem(this.x, this.y).equals("K")){
 						this.game.moveItem(this.x, this.y, UP, "K", "s");
-						this.setY(this.y - 1);
+						this.y--;
+						this.game.addMove(UP);
 					}
 				} else if(this.game.getItem(this.x, this.y - 1).equals("w")){
-					if(this.game.isDisplay()){
+					if(this.toDisplay){
 						System.out.println("You're being blocked by a wall.");
 					}
 				} else if(this.game.getItem(this.x, this.y - 1).equals("b") || this.game.getItem(this.x, this.y - 1).equals("B")){
 					if(this.game.getItem(this.x, this.y - 2).equals("b") || this.game.getItem(this.x, this.y - 2).equals("B")){
-						if(this.game.isDisplay()){
+						if(this.toDisplay){
 							System.out.println("Blue book is being blocked by another blue book.");
 						}
 					} else if(this.game.getItem(this.x, this.y - 2).equals("w")){
-						if(this.game.isDisplay()){
+						if(this.toDisplay){
 							System.out.println("Blue book is being blocked by a wall.");
 						}
 					} else if(this.game.getItem(this.x, this.y - 2).equals("s")){
@@ -96,7 +84,8 @@ public class Player {
 								this.game.moveItem(this.x, this.y, UP, "K", "s");
 							}
 						}
-						this.setY(this.y - 1);
+						this.y--;
+						this.game.addMove(UP);
 					} else if(this.game.getItem(this.x, this.y - 2).equals("e")){
 						if(this.game.getItem(this.x, this.y - 1).equals("B")){
 							this.game.moveItem(this.x, this.y - 1, UP, "b", "s");
@@ -118,11 +107,12 @@ public class Player {
 								this.game.moveItem(this.x, this.y, UP, "K", "s");
 							}
 						}
-						this.setY(this.y - 1);
+						this.y--;
+						this.game.addMove(UP);
 					}
 				}
 			}
-			if(this.game.isDisplay()){
+			if(this.toDisplay){
 				this.game.renderTiles(this.x, this.y, UP);
 			}
 		} else if(direction == LEFT){
@@ -130,31 +120,35 @@ public class Player {
 				if(this.game.getItem(this.x - 1, this.y).equals("e")){
 					if(this.game.getItem(this.x, this.y).equals("k")){
 						this.game.moveItem(this.x, this.y, LEFT, "k", "e");
-						this.setX(this.x - 1);
+						this.x--;
+						this.game.addMove(LEFT);
 					} else if(this.game.getItem(this.x, this.y).equals("K")){
 						this.game.moveItem(this.x, this.y, LEFT, "k", "s");
-						this.setX(this.x - 1);
+						this.x--;
+						this.game.addMove(LEFT);
 					}
 				} else if(this.game.getItem(this.x - 1, this.y).equals("s")){
 					if(this.game.getItem(this.x, this.y).equals("k")){
 						this.game.moveItem(this.x, this.y, LEFT, "K", "e");
-						this.setX(this.x - 1);
+						this.x--;
+						this.game.addMove(LEFT);
 					} else if(this.game.getItem(this.x, this.y).equals("K")){
 						this.game.moveItem(this.x, this.y, LEFT, "K", "s");
-						this.setX(this.x - 1);
+						this.x--;
+						this.game.addMove(LEFT);
 					}
 				} else if(this.game.getItem(this.x - 1, this.y).equals("w")){
-					if(this.game.isDisplay()){
-						System.out.println("\nYou're being blocked by a wall.");
+					if(this.toDisplay){
+						System.out.println("You're being blocked by a wall.");
 					}
 				} else if(this.game.getItem(this.x - 1, this.y).equals("b") || this.game.getItem(this.x - 1, this.y).equals("B")){
 					if(this.game.getItem(this.x - 2, this.y).equals("b") || this.game.getItem(this.x - 2, this.y).equals("B")){
-						if(this.game.isDisplay()){
-							System.out.println("\nBlue book is being blocked by another blue book.");
+						if(this.toDisplay){
+							System.out.println("Blue book is being blocked by another blue book.");
 						}
 					} else if(this.game.getItem(this.x - 2, this.y).equals("w")){
-						if(this.game.isDisplay()){
-							System.out.println("\nBlue book is being blocked by a wall.");
+						if(this.toDisplay){
+							System.out.println("Blue book is being blocked by a wall.");
 						}
 					} else if(this.game.getItem(this.x - 2, this.y).equals("s")){
 						if(this.game.getItem(this.x - 1, this.y).equals("B")){
@@ -177,7 +171,8 @@ public class Player {
 								this.game.moveItem(this.x, this.y, LEFT, "K", "s");
 							}
 						}
-						this.setX(this.x - 1);
+						this.x--;
+						this.game.addMove(LEFT);
 					} else if(this.game.getItem(this.x - 2, this.y).equals("e")){
 						if(this.game.getItem(this.x - 1, this.y).equals("B")){
 							this.game.moveItem(this.x - 1, this.y, LEFT, "b", "s");
@@ -199,11 +194,12 @@ public class Player {
 								this.game.moveItem(this.x, this.y, LEFT, "K", "s");
 							}
 						}
-						this.setX(this.x - 1);
+						this.x--;
+						this.game.addMove(LEFT);
 					}
 				}
 			}
-			if(this.game.isDisplay()){
+			if(this.toDisplay){
 				this.game.renderTiles(this.x, this.y, LEFT);
 			}
 		} else if(direction == DOWN){
@@ -211,30 +207,34 @@ public class Player {
 				if(this.game.getItem(this.x, this.y + 1).equals("e")){
 					if(this.game.getItem(this.x, this.y).equals("k")){
 						this.game.moveItem(this.x, this.y, DOWN, "k", "e");
-						this.setY(this.y + 1);
+						this.y++;
+						this.game.addMove(DOWN);
 					} else if(this.game.getItem(this.x, this.y).equals("K")){
 						this.game.moveItem(this.x, this.y, DOWN, "k", "s");
-						this.setY(this.y + 1);
+						this.y++;
+						this.game.addMove(DOWN);
 					}
 				} else if(this.game.getItem(this.x, this.y + 1).equals("s")){
 					if(this.game.getItem(this.x, this.y).equals("k")){
 						this.game.moveItem(this.x, this.y, DOWN, "K", "e");
-						this.setY(this.y + 1);
+						this.y++;
+						this.game.addMove(DOWN);
 					} else if(this.game.getItem(this.x, this.y).equals("K")){
 						this.game.moveItem(this.x, this.y, DOWN, "K", "s");
-						this.setY(this.y + 1);
+						this.y++;
+						this.game.addMove(DOWN);
 					}
 				} else if(this.game.getItem(this.x, this.y + 1).equals("w")){
-					if(this.game.isDisplay()){
+					if(this.toDisplay){
 						System.out.println("You're being blocked by a wall.");
 					}
 				} else if(this.game.getItem(this.x, this.y + 1).equals("b") || this.game.getItem(this.x, this.y + 1).equals("B")){
 					if(this.game.getItem(this.x, this.y + 2).equals("b") || this.game.getItem(this.x, this.y + 2).equals("B")){
-						if(this.game.isDisplay()){
+						if(this.toDisplay){
 							System.out.println("Blue book is being blocked by another blue book.");
 						}
 					} else if(this.game.getItem(this.x, this.y + 2).equals("w")){
-						if(this.game.isDisplay()){
+						if(this.toDisplay){
 							System.out.println("Blue book is being blocked by a wall.");
 						}
 					} else if(this.game.getItem(this.x, this.y + 2).equals("s")){
@@ -258,7 +258,8 @@ public class Player {
 								this.game.moveItem(this.x, this.y, DOWN, "K", "s");
 							}
 						}
-						this.setY(this.y + 1);
+						this.y++;
+						this.game.addMove(DOWN);
 					} else if(this.game.getItem(this.x, this.y + 2).equals("e")){
 						if(this.game.getItem(this.x, this.y + 1).equals("B")){
 							this.game.moveItem(this.x, this.y + 1, DOWN, "b", "s");
@@ -280,11 +281,12 @@ public class Player {
 								this.game.moveItem(this.x, this.y, DOWN, "K", "s");
 							}
 						}
-						this.setY(this.y + 1);
+						this.y++;
+						this.game.addMove(DOWN);
 					}
 				}
 			}
-			if(this.game.isDisplay()){
+			if(this.toDisplay){
 				this.game.renderTiles(this.x, this.y, DOWN);
 			}
 		} else if(direction == RIGHT){
@@ -292,30 +294,34 @@ public class Player {
 				if(this.game.getItem(this.x + 1, this.y).equals("e")){
 					if(this.game.getItem(this.x, this.y).equals("k")){
 						this.game.moveItem(this.x, this.y, RIGHT, "k", "e");
-						this.setX(this.x + 1);
+						this.x++;
+						this.game.addMove(RIGHT);
 					} else if(this.game.getItem(this.x, this.y).equals("K")){
 						this.game.moveItem(this.x, this.y, RIGHT, "k", "s");
-						this.setX(this.x + 1);
+						this.x++;
+						this.game.addMove(RIGHT);
 					}
 				} else if(this.game.getItem(this.x + 1, this.y).equals("s")){
 					if(this.game.getItem(this.x, this.y).equals("k")){
 						this.game.moveItem(this.x, this.y, RIGHT, "K", "e");
-						this.setX(this.x + 1);
+						this.x++;
+						this.game.addMove(RIGHT);
 					} else if(this.game.getItem(this.x, this.y).equals("K")){
 						this.game.moveItem(this.x, this.y, RIGHT, "K", "s");
-						this.setX(this.x + 1);
+						this.x++;
+						this.game.addMove(RIGHT);
 					}
 				} else if(this.game.getItem(this.x + 1, this.y).equals("w")){
-					if(this.game.isDisplay()){
+					if(this.toDisplay){
 						System.out.println("You're being blocked by a wall.");
 					}
 				} else if(this.game.getItem(this.x + 1, this.y).equals("b") || this.game.getItem(this.x + 1, this.y).equals("B")){
 					if(this.game.getItem(this.x + 2, this.y).equals("b") || this.game.getItem(this.x + 2, this.y).equals("B")){
-						if(this.game.isDisplay()){
+						if(this.toDisplay){
 							System.out.println("Blue book is being blocked by another blue book.");
 						}
 					} else if(this.game.getItem(this.x + 2, this.y).equals("w")){
-						if(this.game.isDisplay()){
+						if(this.toDisplay){
 							System.out.println("Blue book is being blocked by a wall.");
 						}
 					} else if(this.game.getItem(this.x + 2, this.y).equals("s")){
@@ -339,7 +345,8 @@ public class Player {
 								this.game.moveItem(this.x, this.y, RIGHT, "K", "s");
 							}
 						}
-						this.setX(this.x + 1);
+						this.x++;
+						this.game.addMove(RIGHT);
 					} else if(this.game.getItem(this.x + 2, this.y).equals("e")){
 						if(this.game.getItem(this.x + 1, this.y).equals("B")){
 							this.game.moveItem(this.x + 1, this.y, RIGHT, "b", "s");
@@ -361,17 +368,79 @@ public class Player {
 								this.game.moveItem(this.x, this.y, RIGHT, "K", "s");
 							}
 						}
-						this.setX(this.x + 1);
+						this.x++;
+						this.game.addMove(RIGHT);
 					}
 				}
 			}
-			if(this.game.isDisplay()){
+			if(this.toDisplay){
 				this.game.renderTiles(this.x, this.y, RIGHT);
-				this.game.checkWin();
 			}
 		}
-		if(this.game.isDisplay()){
+		if(this.toDisplay){
+			this.game.checkWin();
 			this.game.printMap();
 		}
+	}
+
+	public boolean isValidMove(int direction){
+		if(direction == UP){
+			if(this.y > 0){
+				if(this.game.getItem(this.x, this.y - 1).equals("w")){
+					return false;
+				} else if(this.game.getItem(this.x, this.y - 1).equals("b") || this.game.getItem(this.x, this.y - 1).equals("B")){
+					if(this.game.getItem(this.x, this.y - 2).equals("b") || this.game.getItem(this.x, this.y - 2).equals("B")){
+						return false;
+					} else if(this.game.getItem(this.x, this.y - 2).equals("w")){
+						return false;
+					}
+				}
+			} else {
+				return false;
+			}
+		} else if(direction == LEFT){
+			if(this.x > 0){
+				if(this.game.getItem(this.x - 1, this.y).equals("w")){
+					return false;
+				} else if(this.game.getItem(this.x - 1, this.y).equals("b") || this.game.getItem(this.x - 1, this.y).equals("B")){
+					if(this.game.getItem(this.x - 2, this.y).equals("b") || this.game.getItem(this.x - 2, this.y).equals("B")){
+						return false;
+					} else if(this.game.getItem(this.x - 2, this.y).equals("w")){
+						return false;
+					}
+				}
+			} else {
+				return false;
+			}
+		} else if(direction == DOWN){
+			if(this.y < 10){
+				if(this.game.getItem(this.x, this.y + 1).equals("w")){
+					return false;
+				} else if(this.game.getItem(this.x, this.y + 1).equals("b") || this.game.getItem(this.x, this.y + 1).equals("B")){
+					if(this.game.getItem(this.x, this.y + 2).equals("b") || this.game.getItem(this.x, this.y + 2).equals("B")){
+						return false;
+					} else if(this.game.getItem(this.x, this.y + 2).equals("w")){
+						return false;
+					}
+				}
+			} else {
+				return false;
+			}
+		} else if(direction == RIGHT){
+			if(this.x < 10){
+				if(this.game.getItem(this.x + 1, this.y).equals("w")){
+					return false;
+				} else if(this.game.getItem(this.x + 1, this.y).equals("b") || this.game.getItem(this.x + 1, this.y).equals("B")){
+					if(this.game.getItem(this.x + 2, this.y).equals("b") || this.game.getItem(this.x + 2, this.y).equals("B")){
+						return false;
+					} else if(this.game.getItem(this.x + 2, this.y).equals("w")){
+						return false;
+					}
+				}
+			} else {
+				return false;
+			}
+		}
+		return true;
 	}
 }

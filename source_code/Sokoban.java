@@ -58,7 +58,7 @@ public class Sokoban{
 		status.add(movesLabel);
 		status.add(pauseImage);
 
-		final Game game = new Game(null, 0, 0, 0, null);
+		final Game game = new Game(null, null, 0, 0, 0, null);
 		game.display(container, layout, status, movesLabel);
 
 		container.add(menu, "menu");
@@ -87,6 +87,17 @@ public class Sokoban{
 					game.resetGame();
 					layout.show(container, "menu");
 					menu.requestFocus();
+				} else if(e.getKeyCode() == KeyEvent.VK_S){
+					// from https://stackoverflow.com/questions/9458234/measuring-time-in-java
+					long timeA = System.currentTimeMillis();
+					Game solvedGame = (new BruteForce(game)).breadthFirstSearch();
+					long timeB = System.currentTimeMillis();
+					if(solvedGame != null){
+						game.resetGame();
+						game.reenact(solvedGame.getPrevMoves());
+					}
+					System.out.println("Elapsed time: " + (timeB - timeA) + " milliseconds.");
+					// solvedGame.reenact();
 				}
 			}
 			public void keyTyped(KeyEvent e){}

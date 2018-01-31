@@ -19,9 +19,11 @@ import javax.imageio.ImageIO;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Map;
+import java.util.Arrays;
 
 public class Game extends JPanel{
 	private String[][] map = new String[10][10];
+	public String mapID;
 	private JLabel[] renderMap = new JLabel[100];
 	private Queue<Integer> prevMoves = new LinkedList<Integer>();
 	private JLabel label;
@@ -29,6 +31,7 @@ public class Game extends JPanel{
 	private Player player;
 	private CardLayout layout;
 	private Container container;
+	private Game parentGame;
 	private int vacantStorages, boxes, wallType, rotate;
 	private boolean toDisplay;
 	public final static int UP = 1;
@@ -37,21 +40,23 @@ public class Game extends JPanel{
 	public final static int RIGHT = 4;
 	public final static int BLOCK = 60;
 
-	public Game(String[][] map, int playerX, int playerY, int vacantStorages, Queue<Integer> prevMoves){
+	public Game(Game parent, String[][] map, int playerX, int playerY, int vacantStorages, Queue<Integer> prevMoves){
 		this.setLayout(null);
 		this.wallType = 1;
 		this.rotate = 0;
 		this.toDisplay = false;
 		if(map == null){
-			this.readMap();
 			this.vacantStorages = 0;
 			this.boxes = 0;
+			this.readMap();
 		} else {
 			this.map = map;
-			this.player = new Player(playerX, playerY, this);
+			this.player = new Player(playerX, playerY, this, false);
 			this.vacantStorages = vacantStorages;
 			this.prevMoves = prevMoves;
+			this.parentGame = parent;
 		}
+		this.getMapID();
 	}
 
 	public void display(Container container, CardLayout layout, JPanel status, JLabel label){
@@ -113,6 +118,10 @@ public class Game extends JPanel{
 		return this.map[y][x];
 	}
 
+	private void getMapID(){
+		this.mapID = Arrays.deepToString(this.map);
+	}
+
 	private void readMap(){
 		try{
 			BufferedReader reader = new BufferedReader(new FileReader("source_code/puzzle.in"));
@@ -123,7 +132,7 @@ public class Game extends JPanel{
 				for(int j = 0; j < 10; j++){
 					this.map[i][j] = letters[j];
 					if(this.map[i][j].equals("k")){
-						this.player = new Player(j, i, this);
+						this.player = new Player(j, i, this, true);
 					} else if(this.map[i][j].equals("s") || this.map[i][j].equals("K")){
 						this.vacantStorages++;
 					} else if(this.map[i][j].equals("b")){
@@ -159,6 +168,7 @@ public class Game extends JPanel{
 			this.map[y][x + 1] = letter1;
 			this.map[y][x] = letter2;
 		}
+		this.getMapID();
 	}
 
 	public void renderInitial(){
@@ -343,14 +353,89 @@ public class Game extends JPanel{
 		this.renderTiles(this.player.getX(), this.player.getY(), UP);
 	}
 
+	public String[][] getMap(){
+		String[][] newMap = new String[10][10];
+		for(int i = 0; i < 10; i++){
+			System.arraycopy(this.map[i], 0, newMap[i], 0, 10);
+		}
+		return newMap;
+	}
+
+	public Queue<Integer> getValidMoves(){
+		Queue<Integer> validMoves = new LinkedList<Integer>();
+		for(int i = 1; i <= 4; i++){
+			if(this.player.isValidMove(i)){
+				validMoves.add(i);
+			}
+		}
+		return validMoves;
+	}
+
+	public boolean isFinished(){
+		if(this.vacantStorages == 0 && this.prevMoves.size() > 0){
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public int getVacantStorages(){
+		return this.vacantStorages;
+	}
+
+	public int getPlayerX(){
+		return this.player.getX();
+	}
+
+	public int getPlayerY(){
+		return this.player.getY();
+	}
+
+	public Game getParentGame(){
+		return this.parentGame;
+	}
+
+	public int getCost(Queue<Integer> path){
+		int size = path.size();
+		for(int i = 0; i < size; i++){
+			this.player.move(path.remove());
+		}
+		return this.prevMoves.size();
+	}
+
+	public Queue<Integer> getPrevMoves(){
+		return new LinkedList<Integer>(this.prevMoves);
+	}
+
+	public Game getResult(int direction){
+		Game newGame = new Game(this, this.getMap(), this.player.getX(), this.player.getY(), this.vacantStorages, new LinkedList<Integer>(this.prevMoves));
+		newGame.player.move(direction);
+		return newGame;
+	}
+
+	public void reenact(Queue<Integer> prevMoves){
+		int size = prevMoves.size();
+		for(int i = 0; i < size; i++){
+			// From https://stackoverflow.com/questions/24104313/how-to-delay-in-java
+			// try {
+			//     Thread.sleep(1000);
+			// } catch(InterruptedException e) {
+			//     Thread.currentThread().interrupt();
+			// }
+			this.player.move(prevMoves.remove());
+		}
+	}
+
 	public void resetGame(){
 		this.vacantStorages = 0;
 		this.boxes = 0;
 		this.label.setText("Moves: 0");
 		this.readMap();
 		this.renderAll();
-		for(int i = 0; i < this.prevMoves.size(); i++){
+		int size = this.prevMoves.size();
+		for(int i = 0; i < size; i++){
 			this.prevMoves.remove();
 		}
+		this.getMapID();
 	}
 }

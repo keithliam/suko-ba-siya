@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 
 
 import java.awt.Graphics;
@@ -124,7 +125,7 @@ public class Game extends JPanel{
 
 	private void readMap(){
 		try{
-			BufferedReader reader = new BufferedReader(new FileReader("source_code/puzzle.in"));
+			BufferedReader reader = new BufferedReader(new FileReader("puzzle.in"));
 			String line;
 			int i = 0;
 			while((line = reader.readLine()) != null) {
@@ -142,15 +143,41 @@ public class Game extends JPanel{
 				i++;
 			}
 			this.printMap();
-		}catch(FileNotFoundException e){
+		} catch(FileNotFoundException e){
 			System.out.println("File puzzle.in not found");
-		}catch(Exception e){
+		} catch(Exception e){
 			System.out.println(e.getMessage());
 		}
 		if(this.vacantStorages < this.boxes){
 			System.out.println("\nWarning! No. of boxes is more than the no. of storages");
 		} else if(this.vacantStorages > this.boxes){
 			System.out.println("\nWarning! No. of boxes is less than the no. of storages");
+		}
+	}
+
+	public void writeMoves(){
+		try{
+			Queue<Integer> moves = this.getPrevMoves();
+			int size = moves.size();
+			int direction;
+			String text = "";
+			for(int i = 0; i < size; i++){
+				direction = moves.remove();
+				if(direction == UP){
+					text = text + "U ";
+				} else if(direction == LEFT){
+					text = text + "L ";
+				} else if(direction == DOWN){
+					text = text + "D ";
+				} else if(direction == RIGHT){
+					text = text + "R ";
+				}
+			}
+			PrintWriter writer = new PrintWriter("puzzle.out", "UTF-8");
+			writer.println(text);
+			writer.close();
+		} catch(Exception e){
+			System.out.println(e.getMessage());
 		}
 	}
 

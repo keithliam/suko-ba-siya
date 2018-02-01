@@ -96,6 +96,7 @@ public class Sokoban{
 						game.resetGame();
 						game.reenact(solvedGame.getPrevMoves());
 					}
+					game.writeMoves();
 					System.out.println("Elapsed time: " + (timeB - timeA) + " milliseconds.");
 					// solvedGame.reenact();
 				}

@@ -61,9 +61,6 @@ public class Sokoban{
 		final Game game = new Game(null, null, 0, 0, 0, null);
 		game.display(container, layout, status, movesLabel);
 
-		JButton button9 = new JButton("Solve!");
-		button9.setBounds(290, 10, 20, 10);
-		game.add(button9);
 
 		container.add(menu, "menu");
 		container.add(game, "game");

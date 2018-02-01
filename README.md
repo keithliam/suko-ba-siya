@@ -12,7 +12,8 @@ To beat the game, you need to move the player around and push the blue-books to 
 * <kbd>P</kbd> or <kbd>space</kbd> to pause the game
 * <kbd>R</kbd> to restart the game
 * <kbd>W</kbd> to change the walls
-* <kbd>O</kbd> to rotater the player
+* <kbd>O</kbd> to rotate the player
+* <kbd>S</kbd> to show solution
 
 ## How to run
 

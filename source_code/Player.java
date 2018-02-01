@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class Player {
 	private Game game;
-	private boolean toDisplay;
+	private boolean toDisplay, isSol;
 	private int x, y;
 	public final static int UP = 1;
 	public final static int LEFT = 2;
@@ -17,6 +17,7 @@ public class Player {
 		this.y = y;
 		this.game = game;
 		this.toDisplay = toDisplay;
+		this.isSol = false;
 	}
 
 	public int getX(){
@@ -25,6 +26,16 @@ public class Player {
 
 	public int getY(){
 		return this.y;
+	}
+
+	public void setXY(int x, int y){
+		this.x = x;
+		this.y = y;
+	}
+
+	public void solution(){
+		this.isSol = true;
+		this.toDisplay = false;
 	}
 
 	public void move(int direction){
@@ -112,7 +123,7 @@ public class Player {
 					}
 				}
 			}
-			if(this.toDisplay){
+			if(this.toDisplay || this.isSol){
 				this.game.renderTiles(this.x, this.y, UP);
 			}
 		} else if(direction == LEFT){
@@ -199,7 +210,7 @@ public class Player {
 					}
 				}
 			}
-			if(this.toDisplay){
+			if(this.toDisplay || this.isSol){
 				this.game.renderTiles(this.x, this.y, LEFT);
 			}
 		} else if(direction == DOWN){
@@ -286,7 +297,7 @@ public class Player {
 					}
 				}
 			}
-			if(this.toDisplay){
+			if(this.toDisplay || this.isSol){
 				this.game.renderTiles(this.x, this.y, DOWN);
 			}
 		} else if(direction == RIGHT){
@@ -373,7 +384,7 @@ public class Player {
 					}
 				}
 			}
-			if(this.toDisplay){
+			if(this.toDisplay || this.isSol){
 				this.game.renderTiles(this.x, this.y, RIGHT);
 			}
 		}

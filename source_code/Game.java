@@ -29,12 +29,13 @@ public class Game extends JPanel{
 	private Queue<Integer> prevMoves = new LinkedList<Integer>();
 	private JLabel label;
 	private JPanel status;
+	private JButton button;
 	private Player player;
 	private CardLayout layout;
 	private Container container;
 	private Game parentGame;
 	private int vacantStorages, boxes, wallType, rotate;
-	private boolean toDisplay;
+	private boolean toDisplay, isSol;
 	public final static int UP = 1;
 	public final static int LEFT = 2;
 	public final static int DOWN = 3;
@@ -46,10 +47,12 @@ public class Game extends JPanel{
 		this.wallType = 1;
 		this.rotate = 0;
 		this.toDisplay = false;
+		this.isSol = false;
 		if(map == null){
 			this.vacantStorages = 0;
 			this.boxes = 0;
 			this.readMap();
+			// System.out.println("readMap");
 		} else {
 			this.map = map;
 			this.player = new Player(playerX, playerY, this, false);
@@ -58,6 +61,39 @@ public class Game extends JPanel{
 			this.parentGame = parent;
 		}
 		this.getMapID();
+		JButton button9 = new JButton("Solve!");
+		this.button = button9;
+		button9.setBounds(530, 10, 50, 40);
+		this.add(button9);
+
+		Game thisGame = this;
+		button9.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				Game solvedGame = (new BruteForce(thisGame)).breadthFirstSearch();
+				solvedGame.writeMoves();
+				Solution sol = new Solution(thisGame, solvedGame.getPrevMoves());
+				thisGame.requestFocus();
+			}
+		});
+	}
+
+	public void solution(String[][] map, int playerX, int playerY, int vacantStorages, boolean toRenderInitial){
+		this.map = map;
+		this.player.setXY(playerX, playerY);
+		this.vacantStorages = vacantStorages;
+		this.player.solution();
+		this.isSol = true;
+		if(toRenderInitial){
+			this.renderInitial();
+			this.remove(this.button);
+		} else {
+			this.renderAll();
+		}
+
+	}
+
+	public boolean isSolution(){
+		return this.isSol;
 	}
 
 	public void display(Container container, CardLayout layout, JPanel status, JLabel label){
@@ -295,7 +331,9 @@ public class Game extends JPanel{
 	}
 
 	public void renderTiles(int x, int y, int direction){
-		this.label.setText("Moves: " + this.prevMoves.size());
+		if(!this.isSol){
+			this.label.setText("Moves: " + this.prevMoves.size());
+		}
 		if(y < 10 && direction == UP){
 			y++;
 		} else if(x < 10 && direction == LEFT){
@@ -418,6 +456,10 @@ public class Game extends JPanel{
 		return this.player.getY();
 	}
 
+	public void movePlayer(int direction){
+		this.player.move(direction);
+	}
+
 	public Game getParentGame(){
 		return this.parentGame;
 	}
@@ -454,6 +496,19 @@ public class Game extends JPanel{
 	}
 
 	public void resetGame(){
+		this.vacantStorages = 0;
+		this.boxes = 0;
+		this.label.setText("Moves: 0");
+		this.readMap();
+		this.renderAll();
+		int size = this.prevMoves.size();
+		for(int i = 0; i < size; i++){
+			this.prevMoves.remove();
+		}
+		this.getMapID();
+	}
+
+	public void restartSolution(String[][] map){
 		this.vacantStorages = 0;
 		this.boxes = 0;
 		this.label.setText("Moves: 0");

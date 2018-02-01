@@ -61,6 +61,10 @@ public class Sokoban{
 		final Game game = new Game(null, null, 0, 0, 0, null);
 		game.display(container, layout, status, movesLabel);
 
+		JButton button9 = new JButton("Solve!");
+		button9.setBounds(290, 10, 20, 10);
+		game.add(button9);
+
 		container.add(menu, "menu");
 		container.add(game, "game");
 		container.add(status, "status");
@@ -92,12 +96,13 @@ public class Sokoban{
 					long timeA = System.currentTimeMillis();
 					Game solvedGame = (new BruteForce(game)).breadthFirstSearch();
 					long timeB = System.currentTimeMillis();
-					if(solvedGame != null){
-						game.resetGame();
-						game.reenact(solvedGame.getPrevMoves());
-					}
-					game.writeMoves();
+					// if(solvedGame != null){
+					// 	game.resetGame();
+					// 	game.reenact(solvedGame.getPrevMoves());
+					// }
+					solvedGame.writeMoves();
 					System.out.println("Elapsed time: " + (timeB - timeA) + " milliseconds.");
+					Solution sol = new Solution(game, solvedGame.getPrevMoves());
 					// solvedGame.reenact();
 				}
 			}

@@ -67,10 +67,6 @@ public class BruteForce {
 		frontier.add(this.initial);
 		while(frontier.size() != 0){
 			currentState = frontier.remove();						// 6687 nanoseconds
-																									// long timeA = System.nanoTime();
-																									// long timeB = System.nanoTime();
-																									// System.out.println("Elapsed time: " + (timeB - timeA) + " nanoseconds.");								
-																									// return null;
 			explored.add(currentState);								// 7267 nanoseconds
 			// System.out.println(this.GoalTest(currentState));
 			if(this.GoalTest(currentState)){
@@ -79,13 +75,8 @@ public class BruteForce {
 				// System.out.println(currentState.getPrevMoves());
 				return currentState;
 			} else {
-																									// long timeA = System.nanoTime();
 				actions = this.Actions(currentState);				// 44965 nanoseconds
-																									// long timeB = System.nanoTime();
-																									// System.out.println("Elapsed time: " + (timeB - timeA) + " nanoseconds.");								
-																									// return null;
-				size = actions.size();								// 813 nanoseconds
-				for(int i = 0; i < size; i++){
+				while(actions.size() != 0){
 					action = actions.remove();						// 3425 nanoseconds
 					result = this.Result(currentState, action);		// 5468 nanoseconds
 					if(!this.isExplored(result, new LinkedList<Game>(explored), new LinkedList<Game>(frontier))){	// 18292 nanoseconds // 21209 nanoseconds
@@ -97,6 +88,27 @@ public class BruteForce {
 			}
 		}
 		return null;
+	}
+
+	public Game depthFirstSearch(){
+		Stack<Game> frontier = new Stack<Game>();
+		Stack<Game> explored = new Stack<Game>();
+		Queue<Integer> actions;
+		Game currentState, result;
+		int action, size;
+		frontier.push(this.initial);
+		while(frontier.size() != 0){
+			currentState = frontier.pop();
+			explored.push(currentState);
+			if(this.GoalTest(currentState)){
+				currentState.printMap();
+				return currentState;
+			} else {
+				actions = this.Actions(currentState);
+				size = actions.size();
+
+			}
+		}
 	}
 
 	private void printPlayerPosition(Game game){

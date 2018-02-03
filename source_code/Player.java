@@ -405,12 +405,14 @@ public class Player {
 	public boolean isValidMove(int direction){
 		if(direction == UP){
 			if(this.playerY > 0){
-				if(this.game.getItem(this.playerX, this.playerY - 1) == w){
+				int one = this.game.getItem(this.playerX, this.playerY - 1);
+				if(one == w){
 					return false;
-				} else if(this.game.getItem(this.playerX, this.playerY - 1) == b || this.game.getItem(this.playerX, this.playerY - 1) == B){
-					if(this.game.getItem(this.playerX, this.playerY - 2) == b || this.game.getItem(this.playerX, this.playerY - 2) == B){
+				} else if(one == b || one == B){
+					int two = this.game.getItem(this.playerX, this.playerY - 2);
+					if(two == b || two == B){
 						return false;
-					} else if(this.game.getItem(this.playerX, this.playerY - 2) == w){
+					} else if(two == w){
 						return false;
 					}
 				}
@@ -419,12 +421,14 @@ public class Player {
 			}
 		} else if(direction == LEFT){
 			if(this.playerX > 0){
-				if(this.game.getItem(this.playerX - 1, this.playerY) == w){
+				int one = this.game.getItem(this.playerX - 1, this.playerY);
+				if(one == w){
 					return false;
-				} else if(this.game.getItem(this.playerX - 1, this.playerY) == b || this.game.getItem(this.playerX - 1, this.playerY) == B){
-					if(this.game.getItem(this.playerX - 2, this.playerY) == b || this.game.getItem(this.playerX - 2, this.playerY) == B){
+				} else if(one == b || one == B){
+					int two = this.game.getItem(this.playerX - 2, this.playerY);
+					if(two == b || two == B){
 						return false;
-					} else if(this.game.getItem(this.playerX - 2, this.playerY) == w){
+					} else if(two == w){
 						return false;
 					}
 				}
@@ -433,12 +437,14 @@ public class Player {
 			}
 		} else if(direction == DOWN){
 			if(this.playerY < 10){
-				if(this.game.getItem(this.playerX, this.playerY + 1) == w){
+				int one = this.game.getItem(this.playerX, this.playerY + 1);
+				if(one == w){
 					return false;
-				} else if(this.game.getItem(this.playerX, this.playerY + 1) == b || this.game.getItem(this.playerX, this.playerY + 1) == B){
-					if(this.game.getItem(this.playerX, this.playerY + 2) == b || this.game.getItem(this.playerX, this.playerY + 2) == B){
+				} else if(one == b || one == B){
+					int two = this.game.getItem(this.playerX, this.playerY + 2);
+					if(two == b || two == B){
 						return false;
-					} else if(this.game.getItem(this.playerX, this.playerY + 2) == w){
+					} else if(two == w){
 						return false;
 					}
 				}
@@ -447,12 +453,14 @@ public class Player {
 			}
 		} else if(direction == RIGHT){
 			if(this.playerX < 10){
-				if(this.game.getItem(this.playerX + 1, this.playerY) == w){
+				int one = this.game.getItem(this.playerX + 1, this.playerY);
+				if(one == w){
 					return false;
-				} else if(this.game.getItem(this.playerX + 1, this.playerY) == b || this.game.getItem(this.playerX + 1, this.playerY) == B){
-					if(this.game.getItem(this.playerX + 2, this.playerY) == b || this.game.getItem(this.playerX + 2, this.playerY) == B){
+				} else if(one == b || one == B){
+					int two = this.game.getItem(this.playerX + 2, this.playerY);
+					if(two == b || two == B){
 						return false;
-					} else if(this.game.getItem(this.playerX + 2, this.playerY) == w){
+					} else if(two == w){
 						return false;
 					}
 				}

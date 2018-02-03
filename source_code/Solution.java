@@ -79,7 +79,7 @@ class Solution extends JPanel{
 
 		Solution sol = this;
 
-		System.out.println("Moves------> ");
+		System.out.println("\nSolution (1 = UP; 2 = LEFT; 3 = DOWN; 4 = RIGHT):");
 		System.out.println(moves);
 		button1.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){

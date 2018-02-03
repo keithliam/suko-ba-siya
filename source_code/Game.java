@@ -77,6 +77,7 @@ public class Game extends JPanel{
 		Game thisGame = this;
 		button9.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
+				System.out.println("Finding solution...");
 				Game solvedGame = (new BruteForce(thisGame)).breadthFirstSearch();
 				solvedGame.writeMoves();
 				Solution sol = new Solution(thisGame, solvedGame.getPrevMoves());

@@ -137,7 +137,23 @@ public class Game extends JPanel{
 		System.out.println();
 		for(int row = 0; row < 10; row++){
 			for(int col = 0; col < 10; col++){
-				System.out.print(this.map[row][col] + " ");
+				if(this.map[row][col] == k){
+					System.out.print("k ");
+				} else if(this.map[row][col] == K){
+					System.out.print("K ");
+				} else if(this.map[row][col] == b){
+					System.out.print("b ");
+				} else if(this.map[row][col] == B){
+					System.out.print("B ");
+				} else if(this.map[row][col] == s){
+					System.out.print("s ");
+				} else if(this.map[row][col] == e){
+					System.out.print("e ");
+				} else if(this.map[row][col] == w){
+					System.out.print("w ");
+				} else if(this.map[row][col] == x){
+					System.out.print("x ");
+				}
 			}
 			System.out.println();
 		}

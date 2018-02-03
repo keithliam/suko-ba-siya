@@ -97,9 +97,13 @@ public class Sokoban{
 					// 	game.resetGame();
 					// 	game.reenact(solvedGame.getPrevMoves());
 					// }
-					solvedGame.writeMoves();
+					if(solvedGame != null){
+						solvedGame.writeMoves();
+					}
 					System.out.println("Elapsed time: " + (timeB - timeA) + " milliseconds.");
-					Solution sol = new Solution(game, solvedGame.getPrevMoves());
+					if(solvedGame != null){
+						Solution sol = new Solution(game, solvedGame.getPrevMoves());
+					}
 					// solvedGame.reenact();
 				}
 			}

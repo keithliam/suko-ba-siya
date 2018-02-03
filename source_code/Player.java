@@ -6,31 +6,39 @@ import java.awt.*;
 public class Player {
 	private Game game;
 	private boolean toDisplay, isSol;
-	private int x, y;
+	private int playerX, playerY;
 	public final static int UP = 1;
 	public final static int LEFT = 2;
 	public final static int DOWN = 3;
 	public final static int RIGHT = 4;
+	public final static int w = 1;
+	public final static int e = 2;
+	public final static int x = 3;
+	public final static int b = 4;
+	public final static int B = 5;
+	public final static int k = 6;
+	public final static int K = 7;
+	public final static int s = 8;
 
-	public Player(int x, int y, Game game, boolean toDisplay){
-		this.x = x;
-		this.y = y;
+	public Player(int playerX, int playerY, Game game, boolean toDisplay){
+		this.playerX = playerX;
+		this.playerY = playerY;
 		this.game = game;
 		this.toDisplay = toDisplay;
 		this.isSol = false;
 	}
 
 	public int getX(){
-		return this.x;
+		return this.playerX;
 	}
 
 	public int getY(){
-		return this.y;
+		return this.playerY;
 	}
 
-	public void setXY(int x, int y){
-		this.x = x;
-		this.y = y;
+	public void setXY(int playerX, int playerY){
+		this.playerX = playerX;
+		this.playerY = playerY;
 	}
 
 	public void solution(){
@@ -40,352 +48,352 @@ public class Player {
 
 	public void move(int direction){
 		if(direction == UP){
-			if(this.y > 0){
-				if(this.game.getItem(this.x, this.y - 1).equals("e")){
-					if(this.game.getItem(this.x, this.y).equals("k")){
-						this.game.moveItem(this.x, this.y, UP, "k", "e");
-						this.y--;
+			if(this.playerY > 0){
+				if(this.game.getItem(this.playerX, this.playerY - 1) == e){
+					if(this.game.getItem(this.playerX, this.playerY) == k){
+						this.game.moveItem(this.playerX, this.playerY, UP, k, e);
+						this.playerY--;
 						this.game.addMove(UP);
-					} else if(this.game.getItem(this.x, this.y).equals("K")){
-						this.game.moveItem(this.x, this.y, UP, "k", "s");
-						this.y--;
-						this.game.addMove(UP);
-					}
-				} else if(this.game.getItem(this.x, this.y - 1).equals("s")){
-					if(this.game.getItem(this.x, this.y).equals("k")){
-						this.game.moveItem(this.x, this.y, UP, "K", "e");
-						this.y--;
-						this.game.addMove(UP);
-					} else if(this.game.getItem(this.x, this.y).equals("K")){
-						this.game.moveItem(this.x, this.y, UP, "K", "s");
-						this.y--;
+					} else if(this.game.getItem(this.playerX, this.playerY) == K){
+						this.game.moveItem(this.playerX, this.playerY, UP, k, s);
+						this.playerY--;
 						this.game.addMove(UP);
 					}
-				} else if(this.game.getItem(this.x, this.y - 1).equals("w")){
+				} else if(this.game.getItem(this.playerX, this.playerY - 1) == s){
+					if(this.game.getItem(this.playerX, this.playerY) == k){
+						this.game.moveItem(this.playerX, this.playerY, UP, K, e);
+						this.playerY--;
+						this.game.addMove(UP);
+					} else if(this.game.getItem(this.playerX, this.playerY) == K){
+						this.game.moveItem(this.playerX, this.playerY, UP, K, s);
+						this.playerY--;
+						this.game.addMove(UP);
+					}
+				} else if(this.game.getItem(this.playerX, this.playerY - 1) == w){
 					if(this.toDisplay){
 						System.out.println("You're being blocked by a wall.");
 					}
-				} else if(this.game.getItem(this.x, this.y - 1).equals("b") || this.game.getItem(this.x, this.y - 1).equals("B")){
-					if(this.game.getItem(this.x, this.y - 2).equals("b") || this.game.getItem(this.x, this.y - 2).equals("B")){
+				} else if(this.game.getItem(this.playerX, this.playerY - 1) == b || this.game.getItem(this.playerX, this.playerY - 1) == B){
+					if(this.game.getItem(this.playerX, this.playerY - 2) == b || this.game.getItem(this.playerX, this.playerY - 2) == B){
 						if(this.toDisplay){
 							System.out.println("Blue book is being blocked by another blue book.");
 						}
-					} else if(this.game.getItem(this.x, this.y - 2).equals("w")){
+					} else if(this.game.getItem(this.playerX, this.playerY - 2) == w){
 						if(this.toDisplay){
 							System.out.println("Blue book is being blocked by a wall.");
 						}
-					} else if(this.game.getItem(this.x, this.y - 2).equals("s")){
-						if(this.game.getItem(this.x, this.y - 1).equals("B")){
-							this.game.moveItem(this.x, this.y - 1, UP, "B", "s");
-						} else if(this.game.getItem(this.x, this.y - 1).equals("b")){
-							this.game.moveItem(this.x, this.y - 1, UP, "B", "e");
+					} else if(this.game.getItem(this.playerX, this.playerY - 2) == s){
+						if(this.game.getItem(this.playerX, this.playerY - 1) == B){
+							this.game.moveItem(this.playerX, this.playerY - 1, UP, B, s);
+						} else if(this.game.getItem(this.playerX, this.playerY - 1) == b){
+							this.game.moveItem(this.playerX, this.playerY - 1, UP, B, e);
 							this.game.decStorage();
 						}
 
-						if(this.game.getItem(this.x, this.y - 1).equals("e")){
-							if(this.game.getItem(this.x, this.y).equals("k")){
-								this.game.moveItem(this.x, this.y, UP, "k", "e");
-							} else if(this.game.getItem(this.x, this.y).equals("K")){
-								this.game.moveItem(this.x, this.y, UP, "k", "s");
+						if(this.game.getItem(this.playerX, this.playerY - 1) == e){
+							if(this.game.getItem(this.playerX, this.playerY) == k){
+								this.game.moveItem(this.playerX, this.playerY, UP, k, e);
+							} else if(this.game.getItem(this.playerX, this.playerY) == K){
+								this.game.moveItem(this.playerX, this.playerY, UP, k, s);
 							}
-						} else if(this.game.getItem(this.x, this.y - 1).equals("s")){
-							if(this.game.getItem(this.x, this.y).equals("k")){
-								this.game.moveItem(this.x, this.y, UP, "K", "e");
-							} else if(this.game.getItem(this.x, this.y).equals("K")){
-								this.game.moveItem(this.x, this.y, UP, "K", "s");
+						} else if(this.game.getItem(this.playerX, this.playerY - 1) == s){
+							if(this.game.getItem(this.playerX, this.playerY) == k){
+								this.game.moveItem(this.playerX, this.playerY, UP, K, e);
+							} else if(this.game.getItem(this.playerX, this.playerY) == K){
+								this.game.moveItem(this.playerX, this.playerY, UP, K, s);
 							}
 						}
-						this.y--;
+						this.playerY--;
 						this.game.addMove(UP);
-					} else if(this.game.getItem(this.x, this.y - 2).equals("e")){
-						if(this.game.getItem(this.x, this.y - 1).equals("B")){
-							this.game.moveItem(this.x, this.y - 1, UP, "b", "s");
+					} else if(this.game.getItem(this.playerX, this.playerY - 2) == e){
+						if(this.game.getItem(this.playerX, this.playerY - 1) == B){
+							this.game.moveItem(this.playerX, this.playerY - 1, UP, b, s);
 							this.game.incStorage();
-						} else if(this.game.getItem(this.x, this.y - 1).equals("b")){
-							this.game.moveItem(this.x, this.y - 1, UP, "b", "e");
+						} else if(this.game.getItem(this.playerX, this.playerY - 1) == b){
+							this.game.moveItem(this.playerX, this.playerY - 1, UP, b, e);
 						}
 
-						if(this.game.getItem(this.x, this.y - 1).equals("e")){
-							if(this.game.getItem(this.x, this.y).equals("k")){
-								this.game.moveItem(this.x, this.y, UP, "k", "e");
-							} else if(this.game.getItem(this.x, this.y).equals("K")){
-								this.game.moveItem(this.x, this.y, UP, "k", "s");
+						if(this.game.getItem(this.playerX, this.playerY - 1) == e){
+							if(this.game.getItem(this.playerX, this.playerY) == k){
+								this.game.moveItem(this.playerX, this.playerY, UP, k, e);
+							} else if(this.game.getItem(this.playerX, this.playerY) == K){
+								this.game.moveItem(this.playerX, this.playerY, UP, k, s);
 							}
-						} else if(this.game.getItem(this.x, this.y - 1).equals("s")){
-							if(this.game.getItem(this.x, this.y).equals("k")){
-								this.game.moveItem(this.x, this.y, UP, "K", "e");
-							} else if(this.game.getItem(this.x, this.y).equals("K")){
-								this.game.moveItem(this.x, this.y, UP, "K", "s");
+						} else if(this.game.getItem(this.playerX, this.playerY - 1) == s){
+							if(this.game.getItem(this.playerX, this.playerY) == k){
+								this.game.moveItem(this.playerX, this.playerY, UP, K, e);
+							} else if(this.game.getItem(this.playerX, this.playerY) == K){
+								this.game.moveItem(this.playerX, this.playerY, UP, K, s);
 							}
 						}
-						this.y--;
+						this.playerY--;
 						this.game.addMove(UP);
 					}
 				}
 			}
 			if(this.toDisplay || this.isSol){
-				this.game.renderTiles(this.x, this.y, UP);
+				this.game.renderTiles(this.playerX, this.playerY, UP);
 			}
 		} else if(direction == LEFT){
-			if(this.x > 0){
-				if(this.game.getItem(this.x - 1, this.y).equals("e")){
-					if(this.game.getItem(this.x, this.y).equals("k")){
-						this.game.moveItem(this.x, this.y, LEFT, "k", "e");
-						this.x--;
+			if(this.playerX > 0){
+				if(this.game.getItem(this.playerX - 1, this.playerY) == e){
+					if(this.game.getItem(this.playerX, this.playerY) == k){
+						this.game.moveItem(this.playerX, this.playerY, LEFT, k, e);
+						this.playerX--;
 						this.game.addMove(LEFT);
-					} else if(this.game.getItem(this.x, this.y).equals("K")){
-						this.game.moveItem(this.x, this.y, LEFT, "k", "s");
-						this.x--;
-						this.game.addMove(LEFT);
-					}
-				} else if(this.game.getItem(this.x - 1, this.y).equals("s")){
-					if(this.game.getItem(this.x, this.y).equals("k")){
-						this.game.moveItem(this.x, this.y, LEFT, "K", "e");
-						this.x--;
-						this.game.addMove(LEFT);
-					} else if(this.game.getItem(this.x, this.y).equals("K")){
-						this.game.moveItem(this.x, this.y, LEFT, "K", "s");
-						this.x--;
+					} else if(this.game.getItem(this.playerX, this.playerY) == K){
+						this.game.moveItem(this.playerX, this.playerY, LEFT, k, s);
+						this.playerX--;
 						this.game.addMove(LEFT);
 					}
-				} else if(this.game.getItem(this.x - 1, this.y).equals("w")){
+				} else if(this.game.getItem(this.playerX - 1, this.playerY) == s){
+					if(this.game.getItem(this.playerX, this.playerY) == k){
+						this.game.moveItem(this.playerX, this.playerY, LEFT, K, e);
+						this.playerX--;
+						this.game.addMove(LEFT);
+					} else if(this.game.getItem(this.playerX, this.playerY) == K){
+						this.game.moveItem(this.playerX, this.playerY, LEFT, K, s);
+						this.playerX--;
+						this.game.addMove(LEFT);
+					}
+				} else if(this.game.getItem(this.playerX - 1, this.playerY) == w){
 					if(this.toDisplay){
 						System.out.println("You're being blocked by a wall.");
 					}
-				} else if(this.game.getItem(this.x - 1, this.y).equals("b") || this.game.getItem(this.x - 1, this.y).equals("B")){
-					if(this.game.getItem(this.x - 2, this.y).equals("b") || this.game.getItem(this.x - 2, this.y).equals("B")){
+				} else if(this.game.getItem(this.playerX - 1, this.playerY) == b || this.game.getItem(this.playerX - 1, this.playerY) == B){
+					if(this.game.getItem(this.playerX - 2, this.playerY) == b || this.game.getItem(this.playerX - 2, this.playerY) == B){
 						if(this.toDisplay){
 							System.out.println("Blue book is being blocked by another blue book.");
 						}
-					} else if(this.game.getItem(this.x - 2, this.y).equals("w")){
+					} else if(this.game.getItem(this.playerX - 2, this.playerY) == w){
 						if(this.toDisplay){
 							System.out.println("Blue book is being blocked by a wall.");
 						}
-					} else if(this.game.getItem(this.x - 2, this.y).equals("s")){
-						if(this.game.getItem(this.x - 1, this.y).equals("B")){
-							this.game.moveItem(this.x - 1, this.y, LEFT, "B", "s");
-						} else if(this.game.getItem(this.x - 1, this.y).equals("b")){
-							this.game.moveItem(this.x - 1, this.y, LEFT, "B", "e");
+					} else if(this.game.getItem(this.playerX - 2, this.playerY) == s){
+						if(this.game.getItem(this.playerX - 1, this.playerY) == B){
+							this.game.moveItem(this.playerX - 1, this.playerY, LEFT, B, s);
+						} else if(this.game.getItem(this.playerX - 1, this.playerY) == b){
+							this.game.moveItem(this.playerX - 1, this.playerY, LEFT, B, e);
 							this.game.decStorage();
 						}
 
-						if(this.game.getItem(this.x - 1, this.y).equals("e")){
-							if(this.game.getItem(this.x, this.y).equals("k")){
-								this.game.moveItem(this.x, this.y, LEFT, "k", "e");
-							} else if(this.game.getItem(this.x, this.y).equals("K")){
-								this.game.moveItem(this.x, this.y, LEFT, "k", "s");
+						if(this.game.getItem(this.playerX - 1, this.playerY) == e){
+							if(this.game.getItem(this.playerX, this.playerY) == k){
+								this.game.moveItem(this.playerX, this.playerY, LEFT, k, e);
+							} else if(this.game.getItem(this.playerX, this.playerY) == K){
+								this.game.moveItem(this.playerX, this.playerY, LEFT, k, s);
 							}
-						} else if(this.game.getItem(this.x - 1, this.y).equals("s")){
-							if(this.game.getItem(this.x, this.y).equals("k")){
-								this.game.moveItem(this.x, this.y, LEFT, "K", "e");
-							} else if(this.game.getItem(this.x, this.y).equals("K")){
-								this.game.moveItem(this.x, this.y, LEFT, "K", "s");
+						} else if(this.game.getItem(this.playerX - 1, this.playerY) == s){
+							if(this.game.getItem(this.playerX, this.playerY) == k){
+								this.game.moveItem(this.playerX, this.playerY, LEFT, K, e);
+							} else if(this.game.getItem(this.playerX, this.playerY) == K){
+								this.game.moveItem(this.playerX, this.playerY, LEFT, K, s);
 							}
 						}
-						this.x--;
+						this.playerX--;
 						this.game.addMove(LEFT);
-					} else if(this.game.getItem(this.x - 2, this.y).equals("e")){
-						if(this.game.getItem(this.x - 1, this.y).equals("B")){
-							this.game.moveItem(this.x - 1, this.y, LEFT, "b", "s");
+					} else if(this.game.getItem(this.playerX - 2, this.playerY) == e){
+						if(this.game.getItem(this.playerX - 1, this.playerY) == B){
+							this.game.moveItem(this.playerX - 1, this.playerY, LEFT, b, s);
 							this.game.incStorage();
-						} else if(this.game.getItem(this.x - 1, this.y).equals("b")){
-							this.game.moveItem(this.x - 1, this.y, LEFT, "b", "e");
+						} else if(this.game.getItem(this.playerX - 1, this.playerY) == b){
+							this.game.moveItem(this.playerX - 1, this.playerY, LEFT, b, e);
 						}
 
-						if(this.game.getItem(this.x - 1, this.y).equals("e")){
-							if(this.game.getItem(this.x, this.y).equals("k")){
-								this.game.moveItem(this.x, this.y, LEFT, "k", "e");
-							} else if(this.game.getItem(this.x, this.y).equals("K")){
-								this.game.moveItem(this.x, this.y, LEFT, "k", "s");
+						if(this.game.getItem(this.playerX - 1, this.playerY) == e){
+							if(this.game.getItem(this.playerX, this.playerY) == k){
+								this.game.moveItem(this.playerX, this.playerY, LEFT, k, e);
+							} else if(this.game.getItem(this.playerX, this.playerY) == K){
+								this.game.moveItem(this.playerX, this.playerY, LEFT, k, s);
 							}
-						} else if(this.game.getItem(this.x - 1, this.y).equals("s")){
-							if(this.game.getItem(this.x, this.y).equals("k")){
-								this.game.moveItem(this.x, this.y, LEFT, "K", "e");
-							} else if(this.game.getItem(this.x, this.y).equals("K")){
-								this.game.moveItem(this.x, this.y, LEFT, "K", "s");
+						} else if(this.game.getItem(this.playerX - 1, this.playerY) == s){
+							if(this.game.getItem(this.playerX, this.playerY) == k){
+								this.game.moveItem(this.playerX, this.playerY, LEFT, K, e);
+							} else if(this.game.getItem(this.playerX, this.playerY) == K){
+								this.game.moveItem(this.playerX, this.playerY, LEFT, K, s);
 							}
 						}
-						this.x--;
+						this.playerX--;
 						this.game.addMove(LEFT);
 					}
 				}
 			}
 			if(this.toDisplay || this.isSol){
-				this.game.renderTiles(this.x, this.y, LEFT);
+				this.game.renderTiles(this.playerX, this.playerY, LEFT);
 			}
 		} else if(direction == DOWN){
-			if(this.y < 10){
-				if(this.game.getItem(this.x, this.y + 1).equals("e")){
-					if(this.game.getItem(this.x, this.y).equals("k")){
-						this.game.moveItem(this.x, this.y, DOWN, "k", "e");
-						this.y++;
+			if(this.playerY < 10){
+				if(this.game.getItem(this.playerX, this.playerY + 1) == e){
+					if(this.game.getItem(this.playerX, this.playerY) == k){
+						this.game.moveItem(this.playerX, this.playerY, DOWN, k, e);
+						this.playerY++;
 						this.game.addMove(DOWN);
-					} else if(this.game.getItem(this.x, this.y).equals("K")){
-						this.game.moveItem(this.x, this.y, DOWN, "k", "s");
-						this.y++;
-						this.game.addMove(DOWN);
-					}
-				} else if(this.game.getItem(this.x, this.y + 1).equals("s")){
-					if(this.game.getItem(this.x, this.y).equals("k")){
-						this.game.moveItem(this.x, this.y, DOWN, "K", "e");
-						this.y++;
-						this.game.addMove(DOWN);
-					} else if(this.game.getItem(this.x, this.y).equals("K")){
-						this.game.moveItem(this.x, this.y, DOWN, "K", "s");
-						this.y++;
+					} else if(this.game.getItem(this.playerX, this.playerY) == K){
+						this.game.moveItem(this.playerX, this.playerY, DOWN, k, s);
+						this.playerY++;
 						this.game.addMove(DOWN);
 					}
-				} else if(this.game.getItem(this.x, this.y + 1).equals("w")){
+				} else if(this.game.getItem(this.playerX, this.playerY + 1) == s){
+					if(this.game.getItem(this.playerX, this.playerY) == k){
+						this.game.moveItem(this.playerX, this.playerY, DOWN, K, e);
+						this.playerY++;
+						this.game.addMove(DOWN);
+					} else if(this.game.getItem(this.playerX, this.playerY) == K){
+						this.game.moveItem(this.playerX, this.playerY, DOWN, K, s);
+						this.playerY++;
+						this.game.addMove(DOWN);
+					}
+				} else if(this.game.getItem(this.playerX, this.playerY + 1) == w){
 					if(this.toDisplay){
 						System.out.println("You're being blocked by a wall.");
 					}
-				} else if(this.game.getItem(this.x, this.y + 1).equals("b") || this.game.getItem(this.x, this.y + 1).equals("B")){
-					if(this.game.getItem(this.x, this.y + 2).equals("b") || this.game.getItem(this.x, this.y + 2).equals("B")){
+				} else if(this.game.getItem(this.playerX, this.playerY + 1) == b || this.game.getItem(this.playerX, this.playerY + 1) == B){
+					if(this.game.getItem(this.playerX, this.playerY + 2) == b || this.game.getItem(this.playerX, this.playerY + 2) == B){
 						if(this.toDisplay){
 							System.out.println("Blue book is being blocked by another blue book.");
 						}
-					} else if(this.game.getItem(this.x, this.y + 2).equals("w")){
+					} else if(this.game.getItem(this.playerX, this.playerY + 2) == w){
 						if(this.toDisplay){
 							System.out.println("Blue book is being blocked by a wall.");
 						}
-					} else if(this.game.getItem(this.x, this.y + 2).equals("s")){
-						if(this.game.getItem(this.x, this.y + 1).equals("B")){
-							this.game.moveItem(this.x, this.y + 1, DOWN, "B", "s");
-						} else if(this.game.getItem(this.x, this.y + 1).equals("b")){
-							this.game.moveItem(this.x, this.y + 1, DOWN, "B", "e");
+					} else if(this.game.getItem(this.playerX, this.playerY + 2) == s){
+						if(this.game.getItem(this.playerX, this.playerY + 1) == B){
+							this.game.moveItem(this.playerX, this.playerY + 1, DOWN, B, s);
+						} else if(this.game.getItem(this.playerX, this.playerY + 1) == b){
+							this.game.moveItem(this.playerX, this.playerY + 1, DOWN, B, e);
 							this.game.decStorage();
 						}
 
-						if(this.game.getItem(this.x, this.y + 1).equals("e")){
-							if(this.game.getItem(this.x, this.y).equals("k")){
-								this.game.moveItem(this.x, this.y, DOWN, "k", "e");
-							} else if(this.game.getItem(this.x, this.y).equals("K")){
-								this.game.moveItem(this.x, this.y, DOWN, "k", "s");
+						if(this.game.getItem(this.playerX, this.playerY + 1) == e){
+							if(this.game.getItem(this.playerX, this.playerY) == k){
+								this.game.moveItem(this.playerX, this.playerY, DOWN, k, e);
+							} else if(this.game.getItem(this.playerX, this.playerY) == K){
+								this.game.moveItem(this.playerX, this.playerY, DOWN, k, s);
 							}
-						} else if(this.game.getItem(this.x, this.y + 1).equals("s")){
-							if(this.game.getItem(this.x, this.y).equals("k")){
-								this.game.moveItem(this.x, this.y, DOWN, "K", "e");
-							} else if(this.game.getItem(this.x, this.y).equals("K")){
-								this.game.moveItem(this.x, this.y, DOWN, "K", "s");
+						} else if(this.game.getItem(this.playerX, this.playerY + 1) == s){
+							if(this.game.getItem(this.playerX, this.playerY) == k){
+								this.game.moveItem(this.playerX, this.playerY, DOWN, K, e);
+							} else if(this.game.getItem(this.playerX, this.playerY) == K){
+								this.game.moveItem(this.playerX, this.playerY, DOWN, K, s);
 							}
 						}
-						this.y++;
+						this.playerY++;
 						this.game.addMove(DOWN);
-					} else if(this.game.getItem(this.x, this.y + 2).equals("e")){
-						if(this.game.getItem(this.x, this.y + 1).equals("B")){
-							this.game.moveItem(this.x, this.y + 1, DOWN, "b", "s");
+					} else if(this.game.getItem(this.playerX, this.playerY + 2) == e){
+						if(this.game.getItem(this.playerX, this.playerY + 1) == B){
+							this.game.moveItem(this.playerX, this.playerY + 1, DOWN, b, s);
 							this.game.incStorage();
-						} else if(this.game.getItem(this.x, this.y + 1).equals("b")){
-							this.game.moveItem(this.x, this.y + 1, DOWN, "b", "e");
+						} else if(this.game.getItem(this.playerX, this.playerY + 1) == b){
+							this.game.moveItem(this.playerX, this.playerY + 1, DOWN, b, e);
 						}
 
-						if(this.game.getItem(this.x, this.y + 1).equals("e")){
-							if(this.game.getItem(this.x, this.y).equals("k")){
-								this.game.moveItem(this.x, this.y, DOWN, "k", "e");
-							} else if(this.game.getItem(this.x, this.y).equals("K")){
-								this.game.moveItem(this.x, this.y, DOWN, "k", "s");
+						if(this.game.getItem(this.playerX, this.playerY + 1) == e){
+							if(this.game.getItem(this.playerX, this.playerY) == k){
+								this.game.moveItem(this.playerX, this.playerY, DOWN, k, e);
+							} else if(this.game.getItem(this.playerX, this.playerY) == K){
+								this.game.moveItem(this.playerX, this.playerY, DOWN, k, s);
 							}
-						} else if(this.game.getItem(this.x, this.y + 1).equals("s")){
-							if(this.game.getItem(this.x, this.y).equals("k")){
-								this.game.moveItem(this.x, this.y, DOWN, "K", "e");
-							} else if(this.game.getItem(this.x, this.y).equals("K")){
-								this.game.moveItem(this.x, this.y, DOWN, "K", "s");
+						} else if(this.game.getItem(this.playerX, this.playerY + 1) == s){
+							if(this.game.getItem(this.playerX, this.playerY) == k){
+								this.game.moveItem(this.playerX, this.playerY, DOWN, K, e);
+							} else if(this.game.getItem(this.playerX, this.playerY) == K){
+								this.game.moveItem(this.playerX, this.playerY, DOWN, K, s);
 							}
 						}
-						this.y++;
+						this.playerY++;
 						this.game.addMove(DOWN);
 					}
 				}
 			}
 			if(this.toDisplay || this.isSol){
-				this.game.renderTiles(this.x, this.y, DOWN);
+				this.game.renderTiles(this.playerX, this.playerY, DOWN);
 			}
 		} else if(direction == RIGHT){
-			if(this.x < 10){
-				if(this.game.getItem(this.x + 1, this.y).equals("e")){
-					if(this.game.getItem(this.x, this.y).equals("k")){
-						this.game.moveItem(this.x, this.y, RIGHT, "k", "e");
-						this.x++;
+			if(this.playerX < 10){
+				if(this.game.getItem(this.playerX + 1, this.playerY) == e){
+					if(this.game.getItem(this.playerX, this.playerY) == k){
+						this.game.moveItem(this.playerX, this.playerY, RIGHT, k, e);
+						this.playerX++;
 						this.game.addMove(RIGHT);
-					} else if(this.game.getItem(this.x, this.y).equals("K")){
-						this.game.moveItem(this.x, this.y, RIGHT, "k", "s");
-						this.x++;
-						this.game.addMove(RIGHT);
-					}
-				} else if(this.game.getItem(this.x + 1, this.y).equals("s")){
-					if(this.game.getItem(this.x, this.y).equals("k")){
-						this.game.moveItem(this.x, this.y, RIGHT, "K", "e");
-						this.x++;
-						this.game.addMove(RIGHT);
-					} else if(this.game.getItem(this.x, this.y).equals("K")){
-						this.game.moveItem(this.x, this.y, RIGHT, "K", "s");
-						this.x++;
+					} else if(this.game.getItem(this.playerX, this.playerY) == K){
+						this.game.moveItem(this.playerX, this.playerY, RIGHT, k, s);
+						this.playerX++;
 						this.game.addMove(RIGHT);
 					}
-				} else if(this.game.getItem(this.x + 1, this.y).equals("w")){
+				} else if(this.game.getItem(this.playerX + 1, this.playerY) == s){
+					if(this.game.getItem(this.playerX, this.playerY) == k){
+						this.game.moveItem(this.playerX, this.playerY, RIGHT, K, e);
+						this.playerX++;
+						this.game.addMove(RIGHT);
+					} else if(this.game.getItem(this.playerX, this.playerY) == K){
+						this.game.moveItem(this.playerX, this.playerY, RIGHT, K, s);
+						this.playerX++;
+						this.game.addMove(RIGHT);
+					}
+				} else if(this.game.getItem(this.playerX + 1, this.playerY) == w){
 					if(this.toDisplay){
 						System.out.println("You're being blocked by a wall.");
 					}
-				} else if(this.game.getItem(this.x + 1, this.y).equals("b") || this.game.getItem(this.x + 1, this.y).equals("B")){
-					if(this.game.getItem(this.x + 2, this.y).equals("b") || this.game.getItem(this.x + 2, this.y).equals("B")){
+				} else if(this.game.getItem(this.playerX + 1, this.playerY) == b || this.game.getItem(this.playerX + 1, this.playerY) == B){
+					if(this.game.getItem(this.playerX + 2, this.playerY) == b || this.game.getItem(this.playerX + 2, this.playerY) == B){
 						if(this.toDisplay){
 							System.out.println("Blue book is being blocked by another blue book.");
 						}
-					} else if(this.game.getItem(this.x + 2, this.y).equals("w")){
+					} else if(this.game.getItem(this.playerX + 2, this.playerY) == w){
 						if(this.toDisplay){
 							System.out.println("Blue book is being blocked by a wall.");
 						}
-					} else if(this.game.getItem(this.x + 2, this.y).equals("s")){
-						if(this.game.getItem(this.x + 1, this.y).equals("B")){
-							this.game.moveItem(this.x + 1, this.y, RIGHT, "B", "s");
-						} else if(this.game.getItem(this.x + 1, this.y).equals("b")){
-							this.game.moveItem(this.x + 1, this.y, RIGHT, "B", "e");
+					} else if(this.game.getItem(this.playerX + 2, this.playerY) == s){
+						if(this.game.getItem(this.playerX + 1, this.playerY) == B){
+							this.game.moveItem(this.playerX + 1, this.playerY, RIGHT, B, s);
+						} else if(this.game.getItem(this.playerX + 1, this.playerY) == b){
+							this.game.moveItem(this.playerX + 1, this.playerY, RIGHT, B, e);
 							this.game.decStorage();
 						}
 
-						if(this.game.getItem(this.x + 1, this.y).equals("e")){
-							if(this.game.getItem(this.x, this.y).equals("k")){
-								this.game.moveItem(this.x, this.y, RIGHT, "k", "e");
-							} else if(this.game.getItem(this.x, this.y).equals("K")){
-								this.game.moveItem(this.x, this.y, RIGHT, "k", "s");
+						if(this.game.getItem(this.playerX + 1, this.playerY) == e){
+							if(this.game.getItem(this.playerX, this.playerY) == k){
+								this.game.moveItem(this.playerX, this.playerY, RIGHT, k, e);
+							} else if(this.game.getItem(this.playerX, this.playerY) == K){
+								this.game.moveItem(this.playerX, this.playerY, RIGHT, k, s);
 							}
-						} else if(this.game.getItem(this.x + 1, this.y).equals("s")){
-							if(this.game.getItem(this.x, this.y).equals("k")){
-								this.game.moveItem(this.x, this.y, RIGHT, "K", "e");
-							} else if(this.game.getItem(this.x, this.y).equals("K")){
-								this.game.moveItem(this.x, this.y, RIGHT, "K", "s");
+						} else if(this.game.getItem(this.playerX + 1, this.playerY) == s){
+							if(this.game.getItem(this.playerX, this.playerY) == k){
+								this.game.moveItem(this.playerX, this.playerY, RIGHT, K, e);
+							} else if(this.game.getItem(this.playerX, this.playerY) == K){
+								this.game.moveItem(this.playerX, this.playerY, RIGHT, K, s);
 							}
 						}
-						this.x++;
+						this.playerX++;
 						this.game.addMove(RIGHT);
-					} else if(this.game.getItem(this.x + 2, this.y).equals("e")){
-						if(this.game.getItem(this.x + 1, this.y).equals("B")){
-							this.game.moveItem(this.x + 1, this.y, RIGHT, "b", "s");
+					} else if(this.game.getItem(this.playerX + 2, this.playerY) == e){
+						if(this.game.getItem(this.playerX + 1, this.playerY) == B){
+							this.game.moveItem(this.playerX + 1, this.playerY, RIGHT, b, s);
 							this.game.incStorage();
-						} else if(this.game.getItem(this.x + 1, this.y).equals("b")){
-							this.game.moveItem(this.x + 1, this.y, RIGHT, "b", "e");
+						} else if(this.game.getItem(this.playerX + 1, this.playerY) == b){
+							this.game.moveItem(this.playerX + 1, this.playerY, RIGHT, b, e);
 						}
 
-						if(this.game.getItem(this.x + 1, this.y).equals("e")){
-							if(this.game.getItem(this.x, this.y).equals("k")){
-								this.game.moveItem(this.x, this.y, RIGHT, "k", "e");
-							} else if(this.game.getItem(this.x, this.y).equals("K")){
-								this.game.moveItem(this.x, this.y, RIGHT, "k", "s");
+						if(this.game.getItem(this.playerX + 1, this.playerY) == e){
+							if(this.game.getItem(this.playerX, this.playerY) == k){
+								this.game.moveItem(this.playerX, this.playerY, RIGHT, k, e);
+							} else if(this.game.getItem(this.playerX, this.playerY) == K){
+								this.game.moveItem(this.playerX, this.playerY, RIGHT, k, s);
 							}
-						} else if(this.game.getItem(this.x + 1, this.y).equals("s")){
-							if(this.game.getItem(this.x, this.y).equals("k")){
-								this.game.moveItem(this.x, this.y, RIGHT, "K", "e");
-							} else if(this.game.getItem(this.x, this.y).equals("K")){
-								this.game.moveItem(this.x, this.y, RIGHT, "K", "s");
+						} else if(this.game.getItem(this.playerX + 1, this.playerY) == s){
+							if(this.game.getItem(this.playerX, this.playerY) == k){
+								this.game.moveItem(this.playerX, this.playerY, RIGHT, K, e);
+							} else if(this.game.getItem(this.playerX, this.playerY) == K){
+								this.game.moveItem(this.playerX, this.playerY, RIGHT, K, s);
 							}
 						}
-						this.x++;
+						this.playerX++;
 						this.game.addMove(RIGHT);
 					}
 				}
 			}
 			if(this.toDisplay || this.isSol){
-				this.game.renderTiles(this.x, this.y, RIGHT);
+				this.game.renderTiles(this.playerX, this.playerY, RIGHT);
 			}
 		}
 		if(this.toDisplay){
@@ -396,13 +404,13 @@ public class Player {
 
 	public boolean isValidMove(int direction){
 		if(direction == UP){
-			if(this.y > 0){
-				if(this.game.getItem(this.x, this.y - 1).equals("w")){
+			if(this.playerY > 0){
+				if(this.game.getItem(this.playerX, this.playerY - 1) == w){
 					return false;
-				} else if(this.game.getItem(this.x, this.y - 1).equals("b") || this.game.getItem(this.x, this.y - 1).equals("B")){
-					if(this.game.getItem(this.x, this.y - 2).equals("b") || this.game.getItem(this.x, this.y - 2).equals("B")){
+				} else if(this.game.getItem(this.playerX, this.playerY - 1) == b || this.game.getItem(this.playerX, this.playerY - 1) == B){
+					if(this.game.getItem(this.playerX, this.playerY - 2) == b || this.game.getItem(this.playerX, this.playerY - 2) == B){
 						return false;
-					} else if(this.game.getItem(this.x, this.y - 2).equals("w")){
+					} else if(this.game.getItem(this.playerX, this.playerY - 2) == w){
 						return false;
 					}
 				}
@@ -410,13 +418,13 @@ public class Player {
 				return false;
 			}
 		} else if(direction == LEFT){
-			if(this.x > 0){
-				if(this.game.getItem(this.x - 1, this.y).equals("w")){
+			if(this.playerX > 0){
+				if(this.game.getItem(this.playerX - 1, this.playerY) == w){
 					return false;
-				} else if(this.game.getItem(this.x - 1, this.y).equals("b") || this.game.getItem(this.x - 1, this.y).equals("B")){
-					if(this.game.getItem(this.x - 2, this.y).equals("b") || this.game.getItem(this.x - 2, this.y).equals("B")){
+				} else if(this.game.getItem(this.playerX - 1, this.playerY) == b || this.game.getItem(this.playerX - 1, this.playerY) == B){
+					if(this.game.getItem(this.playerX - 2, this.playerY) == b || this.game.getItem(this.playerX - 2, this.playerY) == B){
 						return false;
-					} else if(this.game.getItem(this.x - 2, this.y).equals("w")){
+					} else if(this.game.getItem(this.playerX - 2, this.playerY) == w){
 						return false;
 					}
 				}
@@ -424,13 +432,13 @@ public class Player {
 				return false;
 			}
 		} else if(direction == DOWN){
-			if(this.y < 10){
-				if(this.game.getItem(this.x, this.y + 1).equals("w")){
+			if(this.playerY < 10){
+				if(this.game.getItem(this.playerX, this.playerY + 1) == w){
 					return false;
-				} else if(this.game.getItem(this.x, this.y + 1).equals("b") || this.game.getItem(this.x, this.y + 1).equals("B")){
-					if(this.game.getItem(this.x, this.y + 2).equals("b") || this.game.getItem(this.x, this.y + 2).equals("B")){
+				} else if(this.game.getItem(this.playerX, this.playerY + 1) == b || this.game.getItem(this.playerX, this.playerY + 1) == B){
+					if(this.game.getItem(this.playerX, this.playerY + 2) == b || this.game.getItem(this.playerX, this.playerY + 2) == B){
 						return false;
-					} else if(this.game.getItem(this.x, this.y + 2).equals("w")){
+					} else if(this.game.getItem(this.playerX, this.playerY + 2) == w){
 						return false;
 					}
 				}
@@ -438,13 +446,13 @@ public class Player {
 				return false;
 			}
 		} else if(direction == RIGHT){
-			if(this.x < 10){
-				if(this.game.getItem(this.x + 1, this.y).equals("w")){
+			if(this.playerX < 10){
+				if(this.game.getItem(this.playerX + 1, this.playerY) == w){
 					return false;
-				} else if(this.game.getItem(this.x + 1, this.y).equals("b") || this.game.getItem(this.x + 1, this.y).equals("B")){
-					if(this.game.getItem(this.x + 2, this.y).equals("b") || this.game.getItem(this.x + 2, this.y).equals("B")){
+				} else if(this.game.getItem(this.playerX + 1, this.playerY) == b || this.game.getItem(this.playerX + 1, this.playerY) == B){
+					if(this.game.getItem(this.playerX + 2, this.playerY) == b || this.game.getItem(this.playerX + 2, this.playerY) == B){
 						return false;
-					} else if(this.game.getItem(this.x + 2, this.y).equals("w")){
+					} else if(this.game.getItem(this.playerX + 2, this.playerY) == w){
 						return false;
 					}
 				}

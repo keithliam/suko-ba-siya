@@ -23,7 +23,7 @@ import java.util.Map;
 import java.util.Arrays;
 
 public class Game extends JPanel{
-	private String[][] map = new String[10][10];
+	private int[][] map = new int[10][10];
 	public String mapID;
 	private JLabel[] renderMap = new JLabel[100];
 	private Queue<Integer> prevMoves = new LinkedList<Integer>();
@@ -41,8 +41,16 @@ public class Game extends JPanel{
 	public final static int DOWN = 3;
 	public final static int RIGHT = 4;
 	public final static int BLOCK = 60;
+	public final static int w = 1;
+	public final static int e = 2;
+	public final static int x = 3;
+	public final static int b = 4;
+	public final static int B = 5;
+	public final static int k = 6;
+	public final static int K = 7;
+	public final static int s = 8;
 
-	public Game(Game parent, String[][] map, int playerX, int playerY, int vacantStorages, Queue<Integer> prevMoves){
+	public Game(Game parent, int[][] map, int playerX, int playerY, int vacantStorages, Queue<Integer> prevMoves){
 		this.setLayout(null);
 		this.wallType = 1;
 		this.rotate = 0;
@@ -77,7 +85,7 @@ public class Game extends JPanel{
 		});
 	}
 
-	public void solution(String[][] map, int playerX, int playerY, int vacantStorages, boolean toRenderInitial){
+	public void solution(int[][] map, int playerX, int playerY, int vacantStorages, boolean toRenderInitial){
 		this.map = map;
 		this.player.setXY(playerX, playerY);
 		this.vacantStorages = vacantStorages;
@@ -151,7 +159,7 @@ public class Game extends JPanel{
 		this.vacantStorages--;
 	}
 
-	public String getItem(int x, int y){
+	public int getItem(int x, int y){
 		return this.map[y][x];
 	}
 
@@ -167,13 +175,27 @@ public class Game extends JPanel{
 			while((line = reader.readLine()) != null) {
 				String[] letters = line.split(" ");
 				for(int j = 0; j < 10; j++){
-					this.map[i][j] = letters[j];
-					if(this.map[i][j].equals("k")){
+					if(letters[j].equals("k")){
+						this.map[i][j] = k;
 						this.player = new Player(j, i, this, true);
-					} else if(this.map[i][j].equals("s") || this.map[i][j].equals("K")){
+					} else if(letters[j].equals("s") || letters[j].equals("K")){
 						this.vacantStorages++;
-					} else if(this.map[i][j].equals("b")){
+						if(letters[j].equals("s")){
+							this.map[i][j] = s;
+						} else {
+							this.map[i][j] = K;
+						}
+					} else if(letters[j].equals("b")){
 						this.boxes++;
+						this.map[i][j] = b;
+					} else if(letters[j].equals("B")){
+						this.map[i][j] = B;
+					} else if(letters[j].equals("w")){
+						this.map[i][j] = w;
+					} else if(letters[j].equals("e")){
+						this.map[i][j] = e;
+					} else if(letters[j].equals("x")){
+						this.map[i][j] = x;
 					}
 				}
 				i++;
@@ -217,19 +239,19 @@ public class Game extends JPanel{
 		}
 	}
 
-	public void moveItem(int x, int y, int direction, String letter1, String letter2){
+	public void moveItem(int mapX, int mapY, int direction, int letter1, int letter2){
 		if(direction == UP){
-			this.map[y - 1][x] = letter1;
-			this.map[y][x] = letter2;
+			this.map[mapY - 1][mapX] = letter1;
+			this.map[mapY][mapX] = letter2;
 		} else if(direction == LEFT){
-			this.map[y][x - 1] = letter1;
-			this.map[y][x] = letter2;
+			this.map[mapY][mapX - 1] = letter1;
+			this.map[mapY][mapX] = letter2;
 		} else if(direction == DOWN){
-			this.map[y + 1][x] = letter1;
-			this.map[y][x] = letter2;
+			this.map[mapY + 1][mapX] = letter1;
+			this.map[mapY][mapX] = letter2;
 		} else if(direction == RIGHT){
-			this.map[y][x + 1] = letter1;
-			this.map[y][x] = letter2;
+			this.map[mapY][mapX + 1] = letter1;
+			this.map[mapY][mapX] = letter2;
 		}
 		this.getMapID();
 	}
@@ -237,28 +259,28 @@ public class Game extends JPanel{
 	public void renderInitial(){
 		for(int i = 0; i < 10; i++){
 			for(int j = 0; j < 10; j++){
-				if(this.map[i][j].equals("b")){
+				if(this.map[i][j] == b){
 					ImageIcon icon = new ImageIcon("img/blue_book.gif");
 					JLabel test = new JLabel();
 					test.setBounds(j * BLOCK, i * BLOCK, BLOCK, BLOCK);
 					test.setIcon(icon);
 					this.add(test);
 					this.renderMap[(i * 10) + j] = test;
-				} else if(this.map[i][j].equals("B")){
+				} else if(this.map[i][j] == B){
 					ImageIcon icon = new ImageIcon("img/trash_blue_book.gif");
 					JLabel test = new JLabel();
 					test.setBounds(j * BLOCK, i * BLOCK, BLOCK, BLOCK);
 					test.setIcon(icon);
 					this.add(test);
 					this.renderMap[(i * 10) + j] = test;
-				} else if(this.map[i][j].equals("e") || this.map[i][j].equals("x")){
+				} else if(this.map[i][j] == e || this.map[i][j] == x){
 					ImageIcon icon = new ImageIcon("img/tiles.png");
 					JLabel test = new JLabel();
 					test.setBounds(j * BLOCK, i * BLOCK, BLOCK, BLOCK);
 					test.setIcon(icon);
 					this.add(test);
 					this.renderMap[(i * 10) + j] = test;
-				} else if(this.map[i][j].equals("k")){
+				} else if(this.map[i][j] == k){
 					ImageIcon icon;
 					if(this.rotate == 1){
 						icon = new ImageIcon("img/student.gif");
@@ -270,21 +292,21 @@ public class Game extends JPanel{
 					test.setIcon(icon);
 					this.add(test);
 					this.renderMap[(i * 10) + j] = test;
-				} else if(this.map[i][j].equals("s")){
+				} else if(this.map[i][j] == s){
 					ImageIcon icon = new ImageIcon("img/trash.png");
 					JLabel test = new JLabel();
 					test.setBounds(j * BLOCK, i * BLOCK, BLOCK, BLOCK);
 					test.setIcon(icon);
 					this.add(test);
 					this.renderMap[(i * 10) + j] = test;
-				} else if(this.map[i][j].equals("w")){
+				} else if(this.map[i][j] == w){
 					ImageIcon icon = new ImageIcon("img/wall" + Integer.toString(this.wallType) + ".png");
 					JLabel test = new JLabel();
 					test.setBounds(j * BLOCK, i * BLOCK, BLOCK, BLOCK);
 					test.setIcon(icon);
 					this.add(test);
 					this.renderMap[(i * 10) + j] = test;
-				} else if(this.map[i][j].equals("K")){
+				} else if(this.map[i][j] == K){
 					ImageIcon icon = new ImageIcon("img/trash_student.png");
 					JLabel test = new JLabel();
 					test.setBounds(j * BLOCK, i * BLOCK, BLOCK, BLOCK);
@@ -299,16 +321,16 @@ public class Game extends JPanel{
 	public void renderAll(){
 		for(int i = 0; i < 10; i++){
 			for(int j = 0; j < 10; j++){
-				if(this.map[i][j].equals("b")){
+				if(this.map[i][j] == b){
 					ImageIcon icon = new ImageIcon("img/blue_book.gif");
 					this.renderMap[(i * 10) + j].setIcon(icon);
-				} else if(this.map[i][j].equals("B")){
+				} else if(this.map[i][j] == B){
 					ImageIcon icon = new ImageIcon("img/trash_blue_book.gif");
 					this.renderMap[(i * 10) + j].setIcon(icon);
-				} else if(this.map[i][j].equals("e") || this.map[i][j].equals("x")){
+				} else if(this.map[i][j] == e || this.map[i][j] == x){
 					ImageIcon icon = new ImageIcon("img/tiles.png");
 					this.renderMap[(i * 10) + j].setIcon(icon);
-				} else if(this.map[i][j].equals("k")){
+				} else if(this.map[i][j] == k){
 					ImageIcon icon;
 					if(this.rotate == 1){
 						icon = new ImageIcon("img/student.gif");
@@ -316,13 +338,13 @@ public class Game extends JPanel{
 						icon = new ImageIcon("img/student.png");
 					}
 					this.renderMap[(i * 10) + j].setIcon(icon);
-				} else if(this.map[i][j].equals("s")){
+				} else if(this.map[i][j] == s){
 					ImageIcon icon = new ImageIcon("img/trash.png");
 					this.renderMap[(i * 10) + j].setIcon(icon);
-				} else if(this.map[i][j].equals("w")){
+				} else if(this.map[i][j] == w){
 					ImageIcon icon = new ImageIcon("img/wall" + Integer.toString(this.wallType) + ".png");
 					this.renderMap[(i * 10) + j].setIcon(icon);
-				} else if(this.map[i][j].equals("K")){
+				} else if(this.map[i][j] == K){
 					ImageIcon icon = new ImageIcon("img/trash_student.png");
 					this.renderMap[(i * 10) + j].setIcon(icon);
 				}
@@ -330,52 +352,52 @@ public class Game extends JPanel{
 		}
 	}
 
-	public void renderTiles(int x, int y, int direction){
+	public void renderTiles(int mapX, int mapY, int direction){
 		if(!this.isSol){
 			this.label.setText("Moves: " + this.prevMoves.size());
 		}
-		if(y < 10 && direction == UP){
-			y++;
-		} else if(x < 10 && direction == LEFT){
-			x++;
-		} else if(y >=0 && direction == DOWN){
-			y--;
-		} else if(x >=0 && direction == RIGHT){
-			x--;
+		if(mapY < 10 && direction == UP){
+			mapY++;
+		} else if(mapX < 10 && direction == LEFT){
+			mapX++;
+		} else if(mapY >=0 && direction == DOWN){
+			mapY--;
+		} else if(mapX >=0 && direction == RIGHT){
+			mapX--;
 		}
 		for(int i = 0; i < 3; i++){
-			if(this.map[y][x].equals("b")){
+			if(this.map[mapY][mapX] == b){
 				ImageIcon icon = new ImageIcon("img/blue_book.gif");
-				this.renderMap[(y * 10) + x].setIcon(icon);
-			} else if(this.map[y][x].equals("B")){
+				this.renderMap[(mapY * 10) + mapX].setIcon(icon);
+			} else if(this.map[mapY][mapX] == B){
 				ImageIcon icon = new ImageIcon("img/trash_blue_book.gif");
-				this.renderMap[(y * 10) + x].setIcon(icon);
-			} else if(this.map[y][x].equals("e") || this.map[y][x].equals("x")){
+				this.renderMap[(mapY * 10) + mapX].setIcon(icon);
+			} else if(this.map[mapY][mapX] == e || this.map[mapY][mapX] == x){
 				ImageIcon icon = new ImageIcon("img/tiles.png");
-				this.renderMap[(y * 10) + x].setIcon(icon);
-			} else if(this.map[y][x].equals("k")){
+				this.renderMap[(mapY * 10) + mapX].setIcon(icon);
+			} else if(this.map[mapY][mapX] == k){
 				ImageIcon icon;
 				if(this.rotate == 1){
 					icon = new ImageIcon("img/student.gif");
 				} else {
 					icon = new ImageIcon("img/student.png");
 				}
-				this.renderMap[(y * 10) + x].setIcon(icon);
-			} else if(this.map[y][x].equals("s")){
+				this.renderMap[(mapY * 10) + mapX].setIcon(icon);
+			} else if(this.map[mapY][mapX] == s){
 				ImageIcon icon = new ImageIcon("img/trash.png");
-				this.renderMap[(y * 10) + x].setIcon(icon);
-			} else if(this.map[y][x].equals("K")){
+				this.renderMap[(mapY * 10) + mapX].setIcon(icon);
+			} else if(this.map[mapY][mapX] == K){
 				ImageIcon icon = new ImageIcon("img/trash_student.png");
-				this.renderMap[(y * 10) + x].setIcon(icon);
+				this.renderMap[(mapY * 10) + mapX].setIcon(icon);
 			}
-			if(y >=0 && direction == UP){
-				y--;
-			} else if(x >= 0 && direction == LEFT){
-				x--;
-			} else if(y < 10 && direction == DOWN){
-				y++;
-			} else if(x < 10 && direction == RIGHT){
-				x++;
+			if(mapY >=0 && direction == UP){
+				mapY--;
+			} else if(mapX >= 0 && direction == LEFT){
+				mapX--;
+			} else if(mapY < 10 && direction == DOWN){
+				mapY++;
+			} else if(mapX < 10 && direction == RIGHT){
+				mapX++;
 			} else {
 				break;
 			}
@@ -392,7 +414,7 @@ public class Game extends JPanel{
 	public void renderWalls(){
 		for(int i = 0; i < 10; i++){
 			for(int j = 0; j < 10; j++){
-				if(this.map[i][j].equals("w")){
+				if(this.map[i][j] == w){
 					ImageIcon icon = new ImageIcon("img/wall" + Integer.toString(this.wallType) + ".png");
 					this.renderMap[(i * 10) + j].setIcon(icon);
 				}
@@ -418,8 +440,8 @@ public class Game extends JPanel{
 		this.renderTiles(this.player.getX(), this.player.getY(), UP);
 	}
 
-	public String[][] getMap(){
-		String[][] newMap = new String[10][10];
+	public int[][] getMap(){
+		int[][] newMap = new int[10][10];
 		for(int i = 0; i < 10; i++){
 			System.arraycopy(this.map[i], 0, newMap[i], 0, 10);
 		}
@@ -428,10 +450,17 @@ public class Game extends JPanel{
 
 	public Queue<Integer> getValidMoves(){
 		Queue<Integer> validMoves = new LinkedList<Integer>();
-		for(int i = 1; i <= 4; i++){
-			if(this.player.isValidMove(i)){
-				validMoves.add(i);
-			}
+		if(this.player.isValidMove(1)){
+			validMoves.add(1);
+		}
+		if(this.player.isValidMove(2)){
+			validMoves.add(2);
+		}
+		if(this.player.isValidMove(3)){
+			validMoves.add(3);
+		}
+		if(this.player.isValidMove(4)){
+			validMoves.add(4);
 		}
 		return validMoves;
 	}
@@ -508,7 +537,7 @@ public class Game extends JPanel{
 		this.getMapID();
 	}
 
-	public void restartSolution(String[][] map){
+	public void restartSolution(int[][] map){
 		this.vacantStorages = 0;
 		this.boxes = 0;
 		this.label.setText("Moves: 0");

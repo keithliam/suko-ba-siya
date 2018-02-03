@@ -35,7 +35,7 @@ public class BruteForce {
 		return game.getCost(path);
 	}
 
-	private boolean isExplored(Game game, Queue<Game> explored, Queue<Game> frontier){
+	private boolean isExploredQueue(Game game, Queue<Game> explored, Queue<Game> frontier){
 		Game checkGame1, checkGame2;
 		int size = explored.size();
 		int size1 = frontier.size();
@@ -48,6 +48,29 @@ public class BruteForce {
 			}
 			if(i < size1){
 				checkGame2 = frontier.remove();
+			} else {
+				checkGame2 = null;
+			}
+			if((checkGame1 != null && game.mapID.equals(checkGame1.mapID)) || (checkGame2 != null && game.mapID.equals(checkGame2.mapID))){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean isExploredStack(Game game, Stack<Game> explored, Stack<Game> frontier){
+		Game checkGame1, checkGame2;
+		int size = explored.size();
+		int size1 = frontier.size();
+		boolean isEqual;
+		for(int i = 0; i < size || i < size1; i++){
+			if(i < size){
+				checkGame1 = explored.pop();
+			} else {
+				checkGame1 = null;
+			}
+			if(i < size1){
+				checkGame2 = frontier.pop();
 			} else {
 				checkGame2 = null;
 			}
@@ -79,7 +102,7 @@ public class BruteForce {
 				while(actions.size() != 0){
 					action = actions.remove();						// 3425 nanoseconds
 					result = this.Result(currentState, action);		// 5468 nanoseconds
-					if(!this.isExplored(result, new LinkedList<Game>(explored), new LinkedList<Game>(frontier))){	// 18292 nanoseconds // 21209 nanoseconds
+					if(!this.isExploredQueue(result, new LinkedList<Game>(explored), new LinkedList<Game>(frontier))){	// 18292 nanoseconds // 21209 nanoseconds
 						// System.out.println("\n\nFrontier size: " + frontier.size() + "\nExplored size: " + explored.size());	// 38050 nanoseconds
 						// System.out.println(result.getPrevMoves());	// 23360 nanoseconds
 						frontier.add(result);						// 2585 nanoseconds
@@ -105,10 +128,18 @@ public class BruteForce {
 				return currentState;
 			} else {
 				actions = this.Actions(currentState);
-				size = actions.size();
-
+				while(actions.size() != 0){
+					action = actions.remove();
+					result = this.Result(currentState, action);
+					if(!this.isExploredStack(result, (Stack<Game>) explored.clone(), (Stack<Game>) frontier.clone())){
+						// System.out.println("\n\nFrontier size: " + frontier.size() + "\nExplored size: " + explored.size());	// 38050 nanoseconds
+						// System.out.println(result.getPrevMoves());	// 23360 nanoseconds
+						frontier.add(result);
+					}
+				}
 			}
 		}
+		return null;
 	}
 
 	private void printPlayerPosition(Game game){

@@ -90,8 +90,9 @@ public class Sokoban{
 					menu.requestFocus();
 				} else if(e.getKeyCode() == KeyEvent.VK_S){
 					// from https://stackoverflow.com/questions/9458234/measuring-time-in-java
+					System.out.println("Finding solution...");
 					long timeA = System.currentTimeMillis();
-					Game solvedGame = (new BruteForce(game)).breadthFirstSearch();
+					Game solvedGame = (new BruteForce(game)).depthFirstSearch();
 					long timeB = System.currentTimeMillis();
 					// if(solvedGame != null){
 					// 	game.resetGame();
@@ -100,7 +101,7 @@ public class Sokoban{
 					if(solvedGame != null){
 						solvedGame.writeMoves();
 					}
-					System.out.println("Elapsed time: " + (timeB - timeA) + " milliseconds.");
+					System.out.println("\nElapsed time: " + (timeB - timeA) + " milliseconds.");
 					if(solvedGame != null){
 						Solution sol = new Solution(game, solvedGame.getPrevMoves());
 					}

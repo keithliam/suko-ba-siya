@@ -29,7 +29,7 @@ public class Game extends JPanel{
 	private Queue<Integer> prevMoves = new LinkedList<Integer>();
 	private JLabel label;
 	private JPanel status;
-	private JButton button;
+	private JButton button, button1;
 	private Player player;
 	private CardLayout layout;
 	private Container container;
@@ -69,16 +69,36 @@ public class Game extends JPanel{
 			this.parentGame = parent;
 		}
 		this.getMapID();
-		JButton button9 = new JButton("Solve!");
+		JButton button9 = new JButton("BFS");
 		this.button = button9;
 		button9.setBounds(530, 10, 50, 40);
 		this.add(button9);
+
+		JButton button10 = new JButton("DFS");
+		this.button1 = button10;
+		button10.setBounds(530, 60, 50, 40);
+		this.add(button10);
 
 		Game thisGame = this;
 		button9.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				System.out.println("Finding solution...");
+				long timeA = System.currentTimeMillis();
 				Game solvedGame = (new BruteForce(thisGame)).breadthFirstSearch();
+				long timeB = System.currentTimeMillis();
+				System.out.println("\nElapsed time: " + (timeB - timeA) + " milliseconds.");
+				solvedGame.writeMoves();
+				Solution sol = new Solution(thisGame, solvedGame.getPrevMoves());
+				thisGame.requestFocus();
+			}
+		});
+		button10.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				System.out.println("Finding solution...");
+				long timeA = System.currentTimeMillis();
+				Game solvedGame = (new BruteForce(thisGame)).depthFirstSearch();
+				long timeB = System.currentTimeMillis();
+				System.out.println("\nElapsed time: " + (timeB - timeA) + " milliseconds.");
 				solvedGame.writeMoves();
 				Solution sol = new Solution(thisGame, solvedGame.getPrevMoves());
 				thisGame.requestFocus();
@@ -95,6 +115,7 @@ public class Game extends JPanel{
 		if(toRenderInitial){
 			this.renderInitial();
 			this.remove(this.button);
+			this.remove(this.button1);
 		} else {
 			this.renderAll();
 		}

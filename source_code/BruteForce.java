@@ -64,7 +64,6 @@ public class BruteForce {
 		Queue<Integer> actions;
 		Game currentState, result;
 		int action, size;
-		boolean is1, is2;
 		frontier.add(this.initial);
 		while(frontier.size() != 0){
 			currentState = frontier.remove();						// 6687 nanoseconds

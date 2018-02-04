@@ -52,6 +52,14 @@ public class Game extends JPanel{
 	public final static int k = 6;
 	public final static int K = 7;
 	public final static int s = 8;
+	private final static ImageIcon BLUE_BOOK = new ImageIcon("img/blue_book.gif");
+	private final static ImageIcon TRASH_BLUE_BOOK = new ImageIcon("img/trash_blue_book.gif");
+	private final static ImageIcon TILES = new ImageIcon("img/tiles.png");
+	private final static ImageIcon STUDENT_PNG = new ImageIcon("img/student.png");
+	private final static ImageIcon STUDENT_GIF = new ImageIcon("img/student.gif");
+	private final static ImageIcon TRASH = new ImageIcon("img/trash.png");
+	private final static ImageIcon TRASH_STUDENT = new ImageIcon("img/trash_student.png");
+	private final static ImageIcon WALL = new ImageIcon("img/wall.png");
 
 	public Game(Game parent, int[][] map, int playerX, int playerY, int vacantStorages, Queue<Integer> prevMoves){
 		this.setLayout(null);
@@ -158,7 +166,6 @@ public class Game extends JPanel{
 			}
 		});
 
-		ImageIcon icon1 = new ImageIcon("img/tiles.png");
 		JLabel bottomPanel1 = new JLabel();
 		JLabel bottomPanel2 = new JLabel();
 		JLabel bottomPanel3 = new JLabel();
@@ -179,16 +186,16 @@ public class Game extends JPanel{
 		bottomPanel8.setBounds(420, 600, 60, 60);
 		bottomPanel9.setBounds(480, 600, 60, 60);
 		bottomPanel10.setBounds(540, 600, 60, 60);
-		bottomPanel1.setIcon(icon1);
-		bottomPanel2.setIcon(icon1);
-		bottomPanel3.setIcon(icon1);
-		bottomPanel4.setIcon(icon1);
-		bottomPanel5.setIcon(icon1);
-		bottomPanel6.setIcon(icon1);
-		bottomPanel7.setIcon(icon1);
-		bottomPanel8.setIcon(icon1);
-		bottomPanel9.setIcon(icon1);
-		bottomPanel10.setIcon(icon1);
+		bottomPanel1.setIcon(TILES);
+		bottomPanel2.setIcon(TILES);
+		bottomPanel3.setIcon(TILES);
+		bottomPanel4.setIcon(TILES);
+		bottomPanel5.setIcon(TILES);
+		bottomPanel6.setIcon(TILES);
+		bottomPanel7.setIcon(TILES);
+		bottomPanel8.setIcon(TILES);
+		bottomPanel9.setIcon(TILES);
+		bottomPanel10.setIcon(TILES);
 		this.add(bottomPanel1);
 		this.add(bottomPanel2);
 		this.add(bottomPanel3);
@@ -391,60 +398,55 @@ public class Game extends JPanel{
 	}
 
 	public void renderInitial(){
+		ImageIcon wall_type = new ImageIcon("img/wall" + Integer.toString(this.wallType) + ".png");
+		ImageIcon student_type;
+		if(this.rotate == 1){
+			student_type = STUDENT_GIF;
+		} else {
+			student_type = STUDENT_PNG;
+		}
 		for(int i = 0; i < 10; i++){
 			for(int j = 0; j < 10; j++){
 				if(this.map[i][j] == b){
-					ImageIcon icon = new ImageIcon("img/blue_book.gif");
 					JLabel test = new JLabel();
 					test.setBounds(j * BLOCK, i * BLOCK, BLOCK, BLOCK);
-					test.setIcon(icon);
+					test.setIcon(this.BLUE_BOOK);
 					this.add(test);
 					this.renderMap[(i * 10) + j] = test;
 				} else if(this.map[i][j] == B){
-					ImageIcon icon = new ImageIcon("img/trash_blue_book.gif");
 					JLabel test = new JLabel();
 					test.setBounds(j * BLOCK, i * BLOCK, BLOCK, BLOCK);
-					test.setIcon(icon);
+					test.setIcon(this.TRASH_BLUE_BOOK);
 					this.add(test);
 					this.renderMap[(i * 10) + j] = test;
 				} else if(this.map[i][j] == e || this.map[i][j] == x){
-					ImageIcon icon = new ImageIcon("img/tiles.png");
 					JLabel test = new JLabel();
 					test.setBounds(j * BLOCK, i * BLOCK, BLOCK, BLOCK);
-					test.setIcon(icon);
+					test.setIcon(this.TILES);
 					this.add(test);
 					this.renderMap[(i * 10) + j] = test;
 				} else if(this.map[i][j] == k){
-					ImageIcon icon;
-					if(this.rotate == 1){
-						icon = new ImageIcon("img/student.gif");
-					} else {
-						icon = new ImageIcon("img/student.png");
-					}
 					JLabel test = new JLabel();
 					test.setBounds(j * BLOCK, i * BLOCK, BLOCK, BLOCK);
-					test.setIcon(icon);
+					test.setIcon(student_type);
 					this.add(test);
 					this.renderMap[(i * 10) + j] = test;
 				} else if(this.map[i][j] == s){
-					ImageIcon icon = new ImageIcon("img/trash.png");
 					JLabel test = new JLabel();
 					test.setBounds(j * BLOCK, i * BLOCK, BLOCK, BLOCK);
-					test.setIcon(icon);
+					test.setIcon(this.TRASH);
 					this.add(test);
 					this.renderMap[(i * 10) + j] = test;
 				} else if(this.map[i][j] == w){
-					ImageIcon icon = new ImageIcon("img/wall" + Integer.toString(this.wallType) + ".png");
 					JLabel test = new JLabel();
 					test.setBounds(j * BLOCK, i * BLOCK, BLOCK, BLOCK);
-					test.setIcon(icon);
+					test.setIcon(wall_type);
 					this.add(test);
 					this.renderMap[(i * 10) + j] = test;
 				} else if(this.map[i][j] == K){
-					ImageIcon icon = new ImageIcon("img/trash_student.png");
 					JLabel test = new JLabel();
 					test.setBounds(j * BLOCK, i * BLOCK, BLOCK, BLOCK);
-					test.setIcon(icon);
+					test.setIcon(this.TRASH_STUDENT);
 					this.add(test);
 					this.renderMap[(i * 10) + j] = test;
 				}
@@ -453,40 +455,41 @@ public class Game extends JPanel{
 	}
 
 	public void renderAll(){
+		ImageIcon wall_type = new ImageIcon("img/wall" + Integer.toString(this.wallType) + ".png");
+		ImageIcon student_type;
+		if(this.rotate == 1){
+			student_type = STUDENT_GIF;
+		} else {
+			student_type = STUDENT_PNG;
+		}
 		for(int i = 0; i < 10; i++){
 			for(int j = 0; j < 10; j++){
 				if(this.map[i][j] == b){
-					ImageIcon icon = new ImageIcon("img/blue_book.gif");
-					this.renderMap[(i * 10) + j].setIcon(icon);
+					this.renderMap[(i * 10) + j].setIcon(BLUE_BOOK);
 				} else if(this.map[i][j] == B){
-					ImageIcon icon = new ImageIcon("img/trash_blue_book.gif");
-					this.renderMap[(i * 10) + j].setIcon(icon);
+					this.renderMap[(i * 10) + j].setIcon(this.TRASH_BLUE_BOOK);
 				} else if(this.map[i][j] == e || this.map[i][j] == x){
-					ImageIcon icon = new ImageIcon("img/tiles.png");
-					this.renderMap[(i * 10) + j].setIcon(icon);
+					this.renderMap[(i * 10) + j].setIcon(this.TILES);
 				} else if(this.map[i][j] == k){
-					ImageIcon icon;
-					if(this.rotate == 1){
-						icon = new ImageIcon("img/student.gif");
-					} else {
-						icon = new ImageIcon("img/student.png");
-					}
-					this.renderMap[(i * 10) + j].setIcon(icon);
+					this.renderMap[(i * 10) + j].setIcon(student_type);
 				} else if(this.map[i][j] == s){
-					ImageIcon icon = new ImageIcon("img/trash.png");
-					this.renderMap[(i * 10) + j].setIcon(icon);
+					this.renderMap[(i * 10) + j].setIcon(this.TRASH);
 				} else if(this.map[i][j] == w){
-					ImageIcon icon = new ImageIcon("img/wall" + Integer.toString(this.wallType) + ".png");
-					this.renderMap[(i * 10) + j].setIcon(icon);
+					this.renderMap[(i * 10) + j].setIcon(wall_type);
 				} else if(this.map[i][j] == K){
-					ImageIcon icon = new ImageIcon("img/trash_student.png");
-					this.renderMap[(i * 10) + j].setIcon(icon);
+					this.renderMap[(i * 10) + j].setIcon(this.TRASH_STUDENT);
 				}
 			}
 		}
 	}
 
 	public void renderTiles(int mapX, int mapY, int direction){
+		ImageIcon student_type;
+		if(this.rotate == 1){
+			student_type = STUDENT_GIF;
+		} else {
+			student_type = STUDENT_PNG;
+		}
 		if(!this.isSol){
 			this.label.setText("Moves: " + this.prevMoves.size());
 		}
@@ -501,28 +504,17 @@ public class Game extends JPanel{
 		}
 		for(int i = 0; i < 3; i++){
 			if(this.map[mapY][mapX] == b){
-				ImageIcon icon = new ImageIcon("img/blue_book.gif");
-				this.renderMap[(mapY * 10) + mapX].setIcon(icon);
+				this.renderMap[(mapY * 10) + mapX].setIcon(this.BLUE_BOOK);
 			} else if(this.map[mapY][mapX] == B){
-				ImageIcon icon = new ImageIcon("img/trash_blue_book.gif");
-				this.renderMap[(mapY * 10) + mapX].setIcon(icon);
+				this.renderMap[(mapY * 10) + mapX].setIcon(this.TRASH_BLUE_BOOK);
 			} else if(this.map[mapY][mapX] == e || this.map[mapY][mapX] == x){
-				ImageIcon icon = new ImageIcon("img/tiles.png");
-				this.renderMap[(mapY * 10) + mapX].setIcon(icon);
+				this.renderMap[(mapY * 10) + mapX].setIcon(this.TILES);
 			} else if(this.map[mapY][mapX] == k){
-				ImageIcon icon;
-				if(this.rotate == 1){
-					icon = new ImageIcon("img/student.gif");
-				} else {
-					icon = new ImageIcon("img/student.png");
-				}
-				this.renderMap[(mapY * 10) + mapX].setIcon(icon);
+				this.renderMap[(mapY * 10) + mapX].setIcon(student_type);
 			} else if(this.map[mapY][mapX] == s){
-				ImageIcon icon = new ImageIcon("img/trash.png");
-				this.renderMap[(mapY * 10) + mapX].setIcon(icon);
+				this.renderMap[(mapY * 10) + mapX].setIcon(this.TRASH);
 			} else if(this.map[mapY][mapX] == K){
-				ImageIcon icon = new ImageIcon("img/trash_student.png");
-				this.renderMap[(mapY * 10) + mapX].setIcon(icon);
+				this.renderMap[(mapY * 10) + mapX].setIcon(this.TRASH_STUDENT);
 			}
 			if(mapY >=0 && direction == UP){
 				mapY--;
@@ -546,10 +538,10 @@ public class Game extends JPanel{
 	}
 
 	public void renderWalls(){
+		ImageIcon icon = new ImageIcon("img/wall" + Integer.toString(this.wallType) + ".png");
 		for(int i = 0; i < 10; i++){
 			for(int j = 0; j < 10; j++){
 				if(this.map[i][j] == w){
-					ImageIcon icon = new ImageIcon("img/wall" + Integer.toString(this.wallType) + ".png");
 					this.renderMap[(i * 10) + j].setIcon(icon);
 				}
 			}

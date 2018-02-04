@@ -92,7 +92,7 @@ public class Sokoban{
 					// from https://stackoverflow.com/questions/9458234/measuring-time-in-java
 					System.out.println("Finding solution...");
 					long timeA = System.currentTimeMillis();
-					Game solvedGame = (new BruteForce(game)).depthFirstSearch();
+					Game solvedGame = (new BruteForce(game)).breadthFirstSearch();
 					long timeB = System.currentTimeMillis();
 					// if(solvedGame != null){
 					// 	game.resetGame();

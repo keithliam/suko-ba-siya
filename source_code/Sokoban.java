@@ -15,6 +15,7 @@ public class Sokoban{
 		JFrame frame = new JFrame("Sokoban");
 		frame.setPreferredSize(new Dimension(600, 682));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setResizable(false);
 		final Container container = frame.getContentPane();
 		container.setLayout(new CardLayout());
 		final CardLayout layout = (CardLayout)(container.getLayout());

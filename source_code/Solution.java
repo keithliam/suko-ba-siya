@@ -22,6 +22,7 @@ class Solution extends JPanel{
 		JFrame frame = new JFrame();
 		frame.setTitle("Solution");
 		frame.setSize(600, 682);
+		frame.setResizable(false);
 		final Container container = frame.getContentPane();
 		final Game solvedGame = new Game(null, null, 0, 0, 0, null);
 		

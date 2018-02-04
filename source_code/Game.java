@@ -10,6 +10,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileSystemView;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -24,12 +27,12 @@ import java.util.Arrays;
 
 public class Game extends JPanel{
 	private int[][] map = new int[10][10];
-	public String mapID;
+	public String mapID, currentPath;
 	private JLabel[] renderMap = new JLabel[100];
 	private Queue<Integer> prevMoves = new LinkedList<Integer>();
 	private JLabel label;
 	private JPanel status;
-	private JButton button, button1;
+	private JButton button, button1, button2;
 	private Player player;
 	private CardLayout layout;
 	private Container container;
@@ -59,6 +62,7 @@ public class Game extends JPanel{
 		if(map == null){
 			this.vacantStorages = 0;
 			this.boxes = 0;
+			this.currentPath = "puzzle.in";
 			this.readMap();
 			// System.out.println("readMap");
 		} else {
@@ -69,15 +73,44 @@ public class Game extends JPanel{
 			this.parentGame = parent;
 		}
 		this.getMapID();
+
+		ImageIcon buttonIcon = new ImageIcon("img/game_button.png");
 		JButton button9 = new JButton("BFS");
 		this.button = button9;
-		button9.setBounds(530, 10, 50, 40);
+		button9.setIcon(buttonIcon);
+		button9.setBounds(51, 607, 144, 46);
 		this.add(button9);
+		button9.setContentAreaFilled(false);
+		button9.setFocusPainted(false);
+		button9.setBorderPainted(false);
 
 		JButton button10 = new JButton("DFS");
 		this.button1 = button10;
-		button10.setBounds(530, 60, 50, 40);
+		button10.setIcon(buttonIcon);
+		button10.setBounds(234, 607, 144, 46);
 		this.add(button10);
+		button10.setContentAreaFilled(false);
+		button10.setFocusPainted(false);
+		button10.setBorderPainted(false);
+
+		JButton button11 = new JButton("File");
+		this.button2 = button11;
+		button11.setBounds(418, 607, 144, 46);
+		button11.setIcon(buttonIcon);
+		this.add(button11);
+		button11.setContentAreaFilled(false);
+		button11.setFocusPainted(false);
+		button11.setBorderPainted(false);
+
+		JLabel button_label1 = new JLabel();
+		button_label1.setIcon(new ImageIcon("img/game_button_label1.png"));
+		button9.add(button_label1);
+		JLabel button_label2 = new JLabel();
+		button_label2.setIcon(new ImageIcon("img/game_button_label2.png"));
+		button10.add(button_label2);
+		JLabel button_label3 = new JLabel();
+		button_label3.setIcon(new ImageIcon("img/game_button_label3.png"));
+		button11.add(button_label3);
 
 		Game thisGame = this;
 		button9.addActionListener(new ActionListener(){
@@ -104,6 +137,68 @@ public class Game extends JPanel{
 				thisGame.requestFocus();
 			}
 		});
+		button11.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				// from https://www.mkyong.com/swing/java-swing-jfilechooser-example/
+				JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+				jfc.setDialogTitle("Select Puzzle File");
+				jfc.setAcceptAllFileFilterUsed(false);
+				FileNameExtensionFilter filter = new FileNameExtensionFilter(".in files" , "in");
+				System.out.println(jfc.getCurrentDirectory());
+				jfc.addChoosableFileFilter(filter);
+				int returnValue = jfc.showOpenDialog(null);
+				// int returnValue = jfc.showSaveDialog(null);
+
+				if (returnValue == JFileChooser.APPROVE_OPTION) {
+					File selectedFile = jfc.getSelectedFile();
+					thisGame.currentPath = selectedFile.getAbsolutePath();
+					thisGame.resetGame();
+				}
+				thisGame.requestFocus();
+			}
+		});
+
+		ImageIcon icon1 = new ImageIcon("img/tiles.png");
+		JLabel bottomPanel1 = new JLabel();
+		JLabel bottomPanel2 = new JLabel();
+		JLabel bottomPanel3 = new JLabel();
+		JLabel bottomPanel4 = new JLabel();
+		JLabel bottomPanel5 = new JLabel();
+		JLabel bottomPanel6 = new JLabel();
+		JLabel bottomPanel7 = new JLabel();
+		JLabel bottomPanel8 = new JLabel();
+		JLabel bottomPanel9 = new JLabel();
+		JLabel bottomPanel10 = new JLabel();
+		bottomPanel1.setBounds(0, 600, 60, 60);
+		bottomPanel2.setBounds(60, 600, 60, 60);
+		bottomPanel3.setBounds(120, 600, 60, 60);
+		bottomPanel4.setBounds(180, 600, 60, 60);
+		bottomPanel5.setBounds(240, 600, 60, 60);
+		bottomPanel6.setBounds(300, 600, 60, 60);
+		bottomPanel7.setBounds(360, 600, 60, 60);
+		bottomPanel8.setBounds(420, 600, 60, 60);
+		bottomPanel9.setBounds(480, 600, 60, 60);
+		bottomPanel10.setBounds(540, 600, 60, 60);
+		bottomPanel1.setIcon(icon1);
+		bottomPanel2.setIcon(icon1);
+		bottomPanel3.setIcon(icon1);
+		bottomPanel4.setIcon(icon1);
+		bottomPanel5.setIcon(icon1);
+		bottomPanel6.setIcon(icon1);
+		bottomPanel7.setIcon(icon1);
+		bottomPanel8.setIcon(icon1);
+		bottomPanel9.setIcon(icon1);
+		bottomPanel10.setIcon(icon1);
+		this.add(bottomPanel1);
+		this.add(bottomPanel2);
+		this.add(bottomPanel3);
+		this.add(bottomPanel4);
+		this.add(bottomPanel5);
+		this.add(bottomPanel6);
+		this.add(bottomPanel7);
+		this.add(bottomPanel8);
+		this.add(bottomPanel9);
+		this.add(bottomPanel10);
 	}
 
 	public void solution(int[][] map, int playerX, int playerY, int vacantStorages, boolean toRenderInitial){
@@ -116,6 +211,7 @@ public class Game extends JPanel{
 			this.renderInitial();
 			this.remove(this.button);
 			this.remove(this.button1);
+			this.remove(this.button2);
 		} else {
 			this.renderAll();
 		}
@@ -207,7 +303,7 @@ public class Game extends JPanel{
 
 	private void readMap(){
 		try{
-			BufferedReader reader = new BufferedReader(new FileReader("puzzle.in"));
+			BufferedReader reader = new BufferedReader(new FileReader(this.currentPath));
 			String line;
 			int i = 0;
 			while((line = reader.readLine()) != null) {
@@ -563,19 +659,6 @@ public class Game extends JPanel{
 	}
 
 	public void resetGame(){
-		this.vacantStorages = 0;
-		this.boxes = 0;
-		this.label.setText("Moves: 0");
-		this.readMap();
-		this.renderAll();
-		int size = this.prevMoves.size();
-		for(int i = 0; i < size; i++){
-			this.prevMoves.remove();
-		}
-		this.getMapID();
-	}
-
-	public void restartSolution(int[][] map){
 		this.vacantStorages = 0;
 		this.boxes = 0;
 		this.label.setText("Moves: 0");

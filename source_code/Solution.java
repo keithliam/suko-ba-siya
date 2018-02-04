@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-import javax.swing.BorderFactory;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Color;
@@ -24,8 +23,6 @@ class Solution extends JPanel{
 		frame.setTitle("Solution");
 		frame.setSize(600, 682);
 		final Container container = frame.getContentPane();
-		// container.setLayout(new CardLayout());
-		// final CardLayout layout = (CardLayout)(container.getLayout());
 		final Game solvedGame = new Game(null, null, 0, 0, 0, null);
 		
 		ImageIcon icon1 = new ImageIcon("img/tiles.png");
@@ -102,12 +99,16 @@ class Solution extends JPanel{
 			}
 		});
 
-		button1.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
-		button2.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
 		button1.setBounds(250, 610, 40, 40);
 		button2.setBounds(310, 610, 40, 40);
 		button1.setIcon(left);
 		button2.setIcon(right);
+		button1.setContentAreaFilled(false);
+		button1.setFocusPainted(false);
+		button1.setBorderPainted(false);
+		button2.setContentAreaFilled(false);
+		button2.setFocusPainted(false);
+		button2.setBorderPainted(false);
 		frame.add(button1);
 		frame.add(button2);
 

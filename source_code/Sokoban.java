@@ -13,7 +13,7 @@ import javax.imageio.ImageIO;
 public class Sokoban{
 	public Sokoban(){
 		JFrame frame = new JFrame("Sokoban");
-		frame.setPreferredSize(new Dimension(600, 622));
+		frame.setPreferredSize(new Dimension(600, 682));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		final Container container = frame.getContentPane();
 		container.setLayout(new CardLayout());
@@ -22,36 +22,36 @@ public class Sokoban{
 		JPanel menu = new JPanel();
 		menu.setLayout(null);
 		menu.setBackground(Color.BLACK);
-		menu.setPreferredSize(new Dimension(600, 600));
+		menu.setPreferredSize(new Dimension(600, 660));
 
 
 		JButton button = new JButton();
 		ImageIcon icon3 = new ImageIcon("img/start_button.gif");
 
-		button.setBounds(196, 415, 210, 47);
+		button.setBounds(196, 421, 210, 47);
 		button.setIcon(icon3);
 		menu.add(button);
 
 
 		ImageIcon icon1 = new ImageIcon("img/menu.gif");
 		JLabel menuImage = new JLabel();
-		menuImage.setBounds(0, 0, 600, 600);
+		menuImage.setBounds(0, 0, 600, 660);
 		menuImage.setIcon(icon1);
 		menu.add(menuImage);
 
 		JPanel status = new JPanel();
 		status.setLayout(null);
-		status.setPreferredSize(new Dimension(600, 600));
+		status.setPreferredSize(new Dimension(600, 660));
 
 
 		ImageIcon icon2 = new ImageIcon("img/pause.gif");
 		JLabel pauseImage = new JLabel();
-		pauseImage.setBounds(0, 0, 600, 600);
+		pauseImage.setBounds(0, 0, 600, 660);
 		pauseImage.setIcon(icon2);
 
 
 		JLabel movesLabel = new JLabel("Moves: 0");
-		movesLabel.setBounds(255, 140, 150, 20);
+		movesLabel.setBounds(255, 435, 150, 20);
 		movesLabel.setFont(new Font("Arial", Font.PLAIN, 20));
 		movesLabel.setForeground(Color.WHITE);
 

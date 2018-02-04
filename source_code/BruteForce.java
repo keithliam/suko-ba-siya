@@ -31,7 +31,7 @@ public class BruteForce {
 	}
 
 	private int PathCost(Queue<Integer> path){
-		Game game = new Game(null, null, 0, 0, 0, null);
+		Game game = new Game(null, null, 0, 0, 0, null, null);
 		return game.getCost(path);
 	}
 

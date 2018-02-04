@@ -21,10 +21,20 @@ class Solution extends JPanel{
 	public Solution(Game game, Queue<Integer> prevMoves){
 		JFrame frame = new JFrame();
 		frame.setTitle("Solution");
-		frame.setSize(600, 682);
+		frame.setPreferredSize(new Dimension(600, 682));
 		frame.setResizable(false);
 		final Container container = frame.getContentPane();
-		final Game solvedGame = new Game(null, null, 0, 0, 0, null);
+		final Game solvedGame = new Game(null, null, 0, 0, 0, null, frame);
+
+		// from https://stackoverflow.com/questions/21921135/using-setlocation-to-move-the-jframe-around-windows-java
+		int screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
+		int screenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
+
+		int width = frame.getWidth();
+
+		int east = screenWidth / 2;
+
+		frame.setLocation(east, (screenHeight - 640) / 2);
 		
 		ImageIcon icon1 = new ImageIcon("img/tiles.png");
 		JLabel bottomPanel1 = new JLabel();
@@ -125,6 +135,8 @@ class Solution extends JPanel{
 		frame.add(bottomPanel9);
 		frame.add(bottomPanel10);
 		container.add(solvedGame);
+
+		frame.pack();
 		frame.setVisible(true);
 	}
 }

@@ -94,7 +94,6 @@ public class BruteForce {
 			// System.out.println(this.GoalTest(currentState));
 			if(this.GoalTest(currentState)){
 				// this.printMap(currentState);
-				currentState.printMap();
 				// System.out.println(currentState.getPrevMoves());
 				return currentState;
 			} else {
@@ -124,7 +123,6 @@ public class BruteForce {
 			currentState = frontier.pop();
 			explored.push(currentState);
 			if(this.GoalTest(currentState)){
-				currentState.printMap();
 				return currentState;
 			} else {
 				actions = this.Actions(currentState);

@@ -91,7 +91,7 @@ public class Sokoban{
 					menu.requestFocus();
 				} else if(e.getKeyCode() == KeyEvent.VK_S){
 					// from https://stackoverflow.com/questions/9458234/measuring-time-in-java
-					System.out.println("Finding solution...");
+					System.out.println("\nFinding solution...");
 					long timeA = System.currentTimeMillis();
 					Game solvedGame = (new BruteForce(game)).breadthFirstSearch();
 					long timeB = System.currentTimeMillis();

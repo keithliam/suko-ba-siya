@@ -160,11 +160,13 @@ public class Game extends JPanel{
 				public void actionPerformed(ActionEvent e){
 					thisGame.moveFrame();
 
-					System.out.println("Finding solution...");
-					long timeA = System.currentTimeMillis();
+					System.out.println("\nFinding solution...");
+
+					// from https://stackoverflow.com/questions/9458234/measuring-time-in-java
+					long timeA = System.nanoTime();
 					Game solvedGame = (new BruteForce(thisGame)).breadthFirstSearch();
-					long timeB = System.currentTimeMillis();
-					System.out.println("\nElapsed time: " + (timeB - timeA) + " milliseconds.");
+					long timeB = System.nanoTime();
+					System.out.println("Elapsed time (BFS): " + (timeB - timeA) + " nanoseconds.");
 					solvedGame.writeMoves();
 					Solution sol = new Solution(thisGame, solvedGame.getPrevMoves());
 					thisGame.requestFocus();
@@ -174,11 +176,12 @@ public class Game extends JPanel{
 				public void actionPerformed(ActionEvent e){
 					thisGame.moveFrame();
 
-					System.out.println("Finding solution...");
-					long timeA = System.currentTimeMillis();
+					System.out.println("\nFinding solution...");
+					
+					long timeA = System.nanoTime();
 					Game solvedGame = (new BruteForce(thisGame)).depthFirstSearch();
-					long timeB = System.currentTimeMillis();
-					System.out.println("\nElapsed time: " + (timeB - timeA) + " milliseconds.");
+					long timeB = System.nanoTime();
+					System.out.println("Elapsed time (DFS): " + (timeB - timeA) + " nanoseconds.");
 					solvedGame.writeMoves();
 					Solution sol = new Solution(thisGame, solvedGame.getPrevMoves());
 					thisGame.requestFocus();
@@ -360,7 +363,7 @@ public class Game extends JPanel{
 				}
 				i++;
 			}
-			this.printMap();
+			// this.printMap();
 		} catch(FileNotFoundException e){
 			System.out.println("File puzzle.in not found");
 		} catch(Exception e){

@@ -18,6 +18,6 @@ To beat the game, you need to move the player around and push the blue-books to 
 ## How to run
 
 
-```
-./main
+```console
+$ ./main
 ```
